@@ -1,0 +1,18 @@
+<div class="dropdown-menu" 
+  (mousedown)="mouseDown($event)"
+  (mouseup)="mouseUp($event)"
+
+  appClickOutsideDetector
+  (clickElsewhere)="mouseUpOutside($event)"
+>
+  <!-- track mouse movement only while the mouse is pressed -->
+  <div *ngIf="isMouseDown" appMouseMover (mouseMoved)="mouseMove($event)"></div>
+
+  <!-- <div id="menuItemContainer" [ngStyle]="{'property': expression}"> -->
+  <div id="menuItemContainer">
+    <div class="menu-item" *ngFor="let itemLabel of menuItemLabels; let i=index" [ngStyle]="{'transform': getMenuItemStyle(i) }">
+      {{itemLabel}}
+    </div>
+
+  </div>
+</div>
