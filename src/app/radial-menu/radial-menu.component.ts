@@ -34,7 +34,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   private angleToTarget = 0;
   private currentPositionOnCircle: Point;
-  private targetIndex = 0;
+  private targetIndex = -1;
   private targetPositionOnCircle: Point;
 
   constructor() {
@@ -166,11 +166,11 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     }
 
     if (this.isMouseDown) {
-      mouseDownMarker.style.display = 'block';
+      mouseDownMarker.style.opacity = '1';
       mouseDownMarker.style.left = (this.mouseDownPosition.x - mouseDownMarker.clientWidth * .5) + 'px';
       mouseDownMarker.style.top = (this.mouseDownPosition.y - mouseDownMarker.clientHeight * .5) + 'px';
     } else {
-      mouseDownMarker.style.display = 'none';
+      mouseDownMarker.style.opacity = '0';
     }
   }
 

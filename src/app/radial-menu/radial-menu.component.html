@@ -1,3 +1,4 @@
+
 <div class="dropdown-menu" 
   (mousedown)="mouseDown($event)"
   (mouseup)="mouseUp($event)"
@@ -19,5 +20,12 @@
       {{itemLabel}}
     </div>
   </div>
+
+  <p *ngIf="targetIndex !== -1"
+  class="selection-info"
+>
+  triggered selected item: {{targetIndex}}
+</p>
+
 
 </div>
