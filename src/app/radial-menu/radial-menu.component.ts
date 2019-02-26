@@ -166,12 +166,9 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     }
 
     if (this.isMouseDown) {
-      // const markerWidth: number = Number.parseInt(mouseDownMarker.clientWidth, 2);
-      // const markerHeight: number = Number.parseInt(mouseDownMarker.style.height, 2);
       mouseDownMarker.style.display = 'block';
       mouseDownMarker.style.left = (this.mouseDownPosition.x - mouseDownMarker.clientWidth * .5) + 'px';
       mouseDownMarker.style.top = (this.mouseDownPosition.y - mouseDownMarker.clientHeight * .5) + 'px';
-      console.log(mouseDownMarker.clientWidth + ', ' + mouseDownMarker.clientHeight);
     } else {
       mouseDownMarker.style.display = 'none';
     }
@@ -194,11 +191,10 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.isMouseDown = false;
 
     this.updateMarker();
+    console.log('triggered selected item: ' + this.targetIndex);
   }
 
   public mouseUpOutside(event: MouseEvent): void {
-    // console.log('mouseUpOutside');
     this.mouseUp(event);
   }
-
 }
