@@ -25,7 +25,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   // private radiusUnit = 'vmin';
   private radiusUnit = 'px';
-  private menuRadiusPx = 300;
+  private menuRadiusPx = 150;
   private offsetAngle = 0;
 
   private mouseDownPosition: Point = new Point();
@@ -70,14 +70,11 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.currentMousePosition.x = event.clientX;
     this.currentMousePosition.y = event.clientY;
 
-
     this.angleToTarget = this.calculateAngle(this.mouseDownPosition, this.currentMousePosition);
     this.currentPositionOnCircle = this.calculateCurrentPositionOnCircle(this.mouseDownPosition,
       this.currentMousePosition,
       this.menuRadiusPx,
       this.angleToTarget);
-
-
 
     // find position of nearest item on circle
     // item with smallest distance wins and will be selected on mouse up
@@ -119,7 +116,13 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   private updateMenuItemSelection(menuItems: NodeListOf<HTMLElement>, selectedIndex: number): void {
     menuItems.forEach((item, index) => {
-      item.style.color = index === selectedIndex ? 'red' : 'black';
+      if (index === selectedIndex) {
+        item.style.color = 'red';
+        item.style.fontWeight = 'bold';
+      } else {
+        item.style.color = 'black';
+        item.style.fontWeight = 'normal';
+      }
     });
   }
 
@@ -155,27 +158,47 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     return positionOnCircle;
   }
 
+
+  private updateMarker(): void {
+    const mouseDownMarker = document.querySelector('.mouse-down-marker') as HTMLElement;
+    if (!mouseDownMarker) {
+      return;
+    }
+
+    if (this.isMouseDown) {
+      // const markerWidth: number = Number.parseInt(mouseDownMarker.clientWidth, 2);
+      // const markerHeight: number = Number.parseInt(mouseDownMarker.style.height, 2);
+      mouseDownMarker.style.display = 'block';
+      mouseDownMarker.style.left = (this.mouseDownPosition.x - mouseDownMarker.clientWidth * .5) + 'px';
+      mouseDownMarker.style.top = (this.mouseDownPosition.y - mouseDownMarker.clientHeight * .5) + 'px';
+      console.log(mouseDownMarker.clientWidth + ', ' + mouseDownMarker.clientHeight);
+    } else {
+      mouseDownMarker.style.display = 'none';
+    }
+  }
+
   public mouseDown(event: MouseEvent): void {
-    console.log('mouseDown');
+    // console.log('mouseDown');
     this.mouseDownPosition.x = event.clientX;
     this.mouseDownPosition.y = event.clientY;
     this.isMouseDown = true;
+
+    this.updateMarker();
   }
 
   public mouseUp(event: MouseEvent): void {
-    console.log('mouseUp');
+    // console.log('mouseUp');
     this.mouseUpPosition.x = event.clientX;
     this.mouseUpPosition.y = event.clientY;
 
     this.isMouseDown = false;
+
+    this.updateMarker();
   }
 
   public mouseUpOutside(event: MouseEvent): void {
-    console.log('mouseUpOutside');
-
-    this.mouseUpPosition.x = event.clientX;
-    this.mouseUpPosition.y = event.clientY;
-    this.isMouseDown = false;
+    // console.log('mouseUpOutside');
+    this.mouseUp(event);
   }
 
 }
