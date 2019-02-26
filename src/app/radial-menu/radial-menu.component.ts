@@ -191,7 +191,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.isMouseDown = false;
 
     this.updateMarker();
-    console.log('triggered selected item: ' + this.targetIndex);
+    // console.log('triggered selected item: ' + this.targetIndex);
   }
 
   public mouseUpOutside(event: MouseEvent): void {
