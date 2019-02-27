@@ -142,10 +142,12 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
       if (index === selectedIndex) {
         item.style.color = 'red';
         item.style.fontWeight = 'bold';
+        item.style.fontSize = '30px';
       } else {
         // TODO: only reset last active item. new member 'lastSelectedIndex
         item.style.color = 'black';
         item.style.fontWeight = 'normal';
+        item.style.fontSize = '15px';
       }
     });
   }
