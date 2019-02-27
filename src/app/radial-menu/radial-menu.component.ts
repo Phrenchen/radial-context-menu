@@ -39,26 +39,38 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private targetPositionOnCircle: Point;
 
   constructor() {
-    this.menuItemLabels = [
-      'item 0',
-      'item 1',
-      'item 2',
-      'item 3',
-      'item 4',
-      'item 5',
-      'item 6',
-      'item 7',
-      'item 8',
-      'item 9',
-    ];
-
-    this.menuItemCount = this.menuItemLabels.length;
-    this.offsetAngle = 360 / this.menuItemCount;
+    this.resetMenu();
   }
 
   ngOnInit() { }
 
   ngAfterViewInit(): void { }
+
+  public resetMenu(itemCount = -1): void {
+    this.menuItemLabels = [];
+
+    // let itemCount = 4;
+    const minItemCount = 1;
+    const maxItemCount = 30 - minItemCount;
+
+    if (itemCount === -1) {
+      itemCount = Math.floor(Math.random() * maxItemCount + minItemCount);
+    }
+
+    // let random: number;
+    let label: string;
+    for (let i = 0; i < itemCount; i++) {
+      // random = Math.random() * 1000;
+      // random = i;
+      // label = random.toString().substr(0, 2);
+      label = i.toString();
+      this.menuItemLabels.push(label);
+    }
+
+
+    this.menuItemCount = this.menuItemLabels.length;
+    this.offsetAngle = 360 / this.menuItemCount;
+  }
 
   public getMenuItemStyle(index: number): string {
     const radius = index >= 0 ? this.menuRadiusPx : 1;
@@ -131,6 +143,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
         item.style.color = 'red';
         item.style.fontWeight = 'bold';
       } else {
+        // TODO: only reset last active item. new member 'lastSelectedIndex
         item.style.color = 'black';
         item.style.fontWeight = 'normal';
       }
@@ -187,9 +200,10 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
         const endAngle = (angleToTarget + 90 + this.offsetAngle * .5);
         const backgroundColor = 'lightgreen';
         const style = 'linear-gradient(' + endAngle + 'deg, transparent 50%, ' + backgroundColor + ' 50%), ' +
-                      'linear-gradient(' + startAngle + 'deg, ' + backgroundColor + ' 50%, transparent 50%)';
+          // 'linear-gradient(' + startAngle + 'deg, ' + "white" + ' 25%, transparent 50%)' +
+          'linear-gradient(' + startAngle + 'deg, ' + backgroundColor + ' 50%, transparent 50%)';
 
-        activeCircleSector.style.opacity = '1';
+        activeCircleSector.style.opacity = '.50';
         activeCircleSector.style.backgroundImage = style;
         return style;
       }
