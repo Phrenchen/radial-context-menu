@@ -16,4 +16,8 @@ export class Point {
 
         return angle;
     }
+
+    public reset(): void {
+        this.x = this.y = 0;
+    }
 }

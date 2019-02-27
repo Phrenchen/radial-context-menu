@@ -34,9 +34,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private mouseUpPosition: Point = new Point();
   private currentMousePosition: Point = new Point();
 
-  private angleToTarget = 0;
-  private currentPositionOnCircle: Point;
-  private targetPositionOnCircle: Point;
 
   constructor() {
     this.resetMenu();
@@ -46,11 +43,16 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void { }
 
+  public showPortfolioMenu(): void {
+    this.menuItemLabels = ['home', 'about', 'work', 'contact'];
+    this.initMenuConfiguration();
+  }
+
   public resetMenu(itemCount = -1): void {
     this.menuItemLabels = [];
 
     // let itemCount = 4;
-    const minItemCount = 1;
+    const minItemCount = 2;
     const maxItemCount = 30 - minItemCount;
 
     if (itemCount === -1) {
@@ -67,9 +69,20 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
       this.menuItemLabels.push(label);
     }
 
+    this.initMenuConfiguration();
+  }
 
+  private initMenuConfiguration(): void {
+    if (!this.menuItemLabels) {
+      return;
+    }
     this.menuItemCount = this.menuItemLabels.length;
     this.offsetAngle = 360 / this.menuItemCount;
+    this.targetIndex = -1;
+    this.isMouseDown = false;
+    this.mouseDownPosition.reset();
+
+    this.updateItemSelection();
   }
 
   public getMenuItemStyle(index: number): string {
@@ -86,14 +99,12 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
    * Menu Item Selection
    */
   public mouseMove(event: MouseEvent): void {
+    if (!this.isMouseDown) {
+      return;
+    }
     this.currentMousePosition.x = event.clientX;
     this.currentMousePosition.y = event.clientY;
 
-    this.angleToTarget = this.calculateAngle(this.mouseDownPosition, this.currentMousePosition);
-    this.currentPositionOnCircle = this.calculateCurrentPositionOnCircle(this.mouseDownPosition,
-      this.currentMousePosition,
-      this.menuRadiusPx,
-      this.angleToTarget);
 
     // find position of nearest item on circle
     // item with smallest distance wins and will be selected on mouse up
@@ -122,22 +133,22 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
     // calculate index
     this.targetIndex = candidateIndex;
-    this.targetPositionOnCircle = position;
-
-    // console.log('selected item index: ' + this.targetIndex);
 
     // update active section
     this.getActiveSectorStyle();
 
-
     // highlight selected DOM element
+    this.updateItemSelection();
+  }
+
+  private updateItemSelection(): void {
     const menuItems: NodeListOf<HTMLElement> = document.querySelectorAll('.menu-item') as NodeListOf<HTMLElement>;
     if (menuItems && menuItems.length >= this.targetIndex) {
-      this.updateMenuItemSelection(menuItems, this.targetIndex);
+      this.updateMenuItems(menuItems, this.targetIndex);
     }
   }
 
-  private updateMenuItemSelection(menuItems: NodeListOf<HTMLElement>, selectedIndex: number): void {
+  private updateMenuItems(menuItems: NodeListOf<HTMLElement>, selectedIndex: number): void {
     menuItems.forEach((item, index) => {
       if (index === selectedIndex) {
         item.style.color = 'red';
@@ -202,7 +213,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
         const endAngle = (angleToTarget + 90 + this.offsetAngle * .5);
         const backgroundColor = 'lightgreen';
         const style = 'linear-gradient(' + endAngle + 'deg, transparent 50%, ' + backgroundColor + ' 50%), ' +
-          // 'linear-gradient(' + startAngle + 'deg, ' + "white" + ' 25%, transparent 50%)' +
           'linear-gradient(' + startAngle + 'deg, ' + backgroundColor + ' 50%, transparent 50%)';
 
         activeCircleSector.style.opacity = '.50';
@@ -231,7 +241,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
 
   public mouseDown(event: MouseEvent): void {
-    // console.log('mouseDown');
     this.mouseDownPosition.x = event.clientX;
     this.mouseDownPosition.y = event.clientY;
     this.isMouseDown = true;
@@ -240,14 +249,12 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
 
   public mouseUp(event: MouseEvent): void {
-    // console.log('mouseUp');
     this.mouseUpPosition.x = event.clientX;
     this.mouseUpPosition.y = event.clientY;
 
     this.isMouseDown = false;
 
     this.updateMarker();
-    // console.log('triggered selected item: ' + this.targetIndex);
   }
 
   public mouseUpOutside(event: MouseEvent): void {
