@@ -69,6 +69,10 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     return styleStr;
   }
 
+  /**
+   * Tracks Mouse Movement
+   * Menu Item Selection
+   */
   public mouseMove(event: MouseEvent): void {
     this.currentMousePosition.x = event.clientX;
     this.currentMousePosition.y = event.clientY;
@@ -109,6 +113,10 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.targetPositionOnCircle = position;
 
     // console.log('selected item index: ' + this.targetIndex);
+
+    // update active section
+    this.getActiveSectorStyle();
+
 
     // highlight selected DOM element
     const menuItems: NodeListOf<HTMLElement> = document.querySelectorAll('.menu-item') as NodeListOf<HTMLElement>;
@@ -161,9 +169,38 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     return positionOnCircle;
   }
 
+  private get hasTarget(): boolean {
+    return this.targetIndex !== -1;
+  }
+
+  private getActiveSectorStyle(): string {
+    const activeCircleSector = document.querySelector('.active-circle-sector') as HTMLElement;
+
+    if (!activeCircleSector) {
+      return;
+    }
+
+    if (this.isMouseDown) {
+      if (this.hasTarget) {
+        const angleToTarget = this.calculateAngleToItemOnCircle(Math.max(0, this.targetIndex));
+        const startAngle = (angleToTarget + 90 - this.offsetAngle * .5);
+        const endAngle = (angleToTarget + 90 + this.offsetAngle * .5);
+        const backgroundColor = 'lightgreen';
+        const style = 'linear-gradient(' + endAngle + 'deg, transparent 50%, ' + backgroundColor + ' 50%), ' +
+                      'linear-gradient(' + startAngle + 'deg, ' + backgroundColor + ' 50%, transparent 50%)';
+
+        activeCircleSector.style.opacity = '1';
+        activeCircleSector.style.backgroundImage = style;
+        return style;
+      }
+    }
+    activeCircleSector.style.opacity = '0';
+    return '';
+  }
 
   private updateMarker(): void {
     const mouseDownMarker = document.querySelector('.mouse-down-marker') as HTMLElement;
+
     if (!mouseDownMarker) {
       return;
     }

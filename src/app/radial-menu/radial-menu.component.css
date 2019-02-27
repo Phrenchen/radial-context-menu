@@ -35,3 +35,28 @@
 
 .selection-info {
 }
+
+/* circle slice */
+.pie {
+    opacity: 1;
+    width: 5em;
+    height: 5em;
+    display: block;
+    border-radius: 50%;
+    background-color: lightgreen;
+    border: 1px solid black;
+    float: left;
+    margin: 1em;
+}
+
+.active-circle-sector {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    display: block;
+    float: left;
+    /* margin: 1em; */
+
+    opacity: 0;
+    background-color: red;
+}

@@ -14,6 +14,8 @@
   </div>
 
   <!-- 
+    positions items on circle
+
     TODO: find menu-items as children of container: multiple item selections can be used!
     important: filter children by class 'menu-item'. the container may also contain non-item children!
    -->
@@ -25,7 +27,9 @@
     <div class="menuOrigin"
       [ngStyle]="{'transform': getMenuItemStyle(-1)}"></div>
   </div>
-
+  <div class="pie">
+    <div class="active-circle-sector"></div>
+  </div>
 
   <p *ngIf="targetIndex !== -1"
   class="selection-info">
