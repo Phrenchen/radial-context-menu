@@ -5,6 +5,7 @@
 
     background: lightgreen;
     z-index: 999;
+    user-select: none;
 }
 
 #menuItemContainer {
@@ -15,11 +16,11 @@
 
 .menu-item {
     position: absolute;
-    user-select: none;
 }
 
-.mouse-down-marker {
-    opacity: 0;
+
+.menuOrigin, .mouse-down-marker {
+    /* opacity: 0; */
     position: absolute;
     width: 5px;
     height: 5px;
@@ -28,6 +29,9 @@
     background: #444;
 }
 
+.mouse-down-marker {
+    opacity: 0;
+}
+
 .selection-info {
-    user-select: none;
 }

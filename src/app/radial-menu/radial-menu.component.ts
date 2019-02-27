@@ -20,6 +20,8 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   public isMouseDown = false;
 
   public menuItemLabels: string[];
+  public targetIndex = -1;
+
   private menuItemCount = 0;
   private origin: Point = new Point();
 
@@ -34,7 +36,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   private angleToTarget = 0;
   private currentPositionOnCircle: Point;
-  private targetIndex = -1;
   private targetPositionOnCircle: Point;
 
   constructor() {
@@ -60,9 +61,11 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void { }
 
   public getMenuItemStyle(index: number): string {
+    const radius = index >= 0 ? this.menuRadiusPx : 1;
+    index = index >= 0 ? index : 0;
     const rotateAngle = this.calculateAngleToItemOnCircle(index);
-    const styleStr = 'rotate(' + rotateAngle + 'deg) translate(0, -' +
-      this.menuRadiusPx + this.radiusUnit + ') rotate(-' + rotateAngle + 'deg)';
+
+    const styleStr = 'rotate(' + rotateAngle + 'deg) translate(0, -' + radius + this.radiusUnit + ') rotate(-' + rotateAngle + 'deg)';
     return styleStr;
   }
 

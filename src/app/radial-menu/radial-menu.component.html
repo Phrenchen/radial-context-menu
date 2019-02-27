@@ -9,21 +9,26 @@
   <!-- track mouse movement only while the mouse is pressed -->
   <div *ngIf="isMouseDown" appMouseMover (mouseMoved)="mouseMove($event)"></div>
 
-  <!-- *ngIf="isMouseDown" -->
   <div 
     class="mouse-down-marker">
   </div>
 
-  <!-- <div id="menuItemContainer" [ngStyle]="{'property': expression}"> -->
+  <!-- 
+    TODO: find menu-items as children of container: multiple item selections can be used!
+    important: filter children by class 'menu-item'. the container may also contain non-item children!
+   -->
   <div id="menuItemContainer">
     <div class="menu-item" *ngFor="let itemLabel of menuItemLabels; let i=index" [ngStyle]="{'transform': getMenuItemStyle(i) }">
       {{itemLabel}}
     </div>
+    
+    <div class="menuOrigin"
+      [ngStyle]="{'transform': getMenuItemStyle(-1)}"></div>
   </div>
 
+
   <p *ngIf="targetIndex !== -1"
-  class="selection-info"
->
+  class="selection-info">
   triggered selected item: {{targetIndex}}
 </p>
 
