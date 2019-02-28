@@ -1,28 +1,9 @@
-<button (click)="showPortfolioMenu()">Portfolio Menu</button>
-<button (click)="showYesNoMenu()">2 Options Menu</button>
-<button (click)="showRandomMenu()">Random Menu</button>
-
-
 <!-- (panstart)="onPanStart($event)" -->
 <!-- (panend)="onPanEnd($event)" -->
-<div class="dropdown-menu" 
-  (mousedown)="mouseDown($event)"
-  (mouseup)="mouseUp($event)"
-
-  (press)="onPress($event)"
-  (pressup)="onPressUp($event)"
-  
-  (pan)="onPan($event)"
-  (panmove)="onPanMove($event)"
-  (pancancel)="onPanCancel($event)"
-  (panleft)="onPanLeft($event)"
-  (panright)="onPanRight($event)"
-  (panup)="onPanUp($event)"
-  (pandown)="onPanDown($event)"
-
-  appClickOutsideDetector
-  (clickElsewhere)="mouseUpOutside($event)"
->
+<div class="dropdown-menu" (mousedown)="mouseDown($event)" (mouseup)="mouseUp($event)" (press)="onPress($event)"
+  (pressup)="onPressUp($event)" (pan)="onPan($event)" (panmove)="onPanMove($event)" (pancancel)="onPanCancel($event)"
+  (panleft)="onPanLeft($event)" (panright)="onPanRight($event)" (panup)="onPanUp($event)" (pandown)="onPanDown($event)"
+  appClickOutsideDetector (clickElsewhere)="mouseUpOutside($event)">
   <!-- track mouse movement only while the mouse is pressed -->
   <div *ngIf="isPointerDown" appMouseMover (mouseMoved)="mouseMove($event)"></div>
 
@@ -36,21 +17,23 @@
     important: filter children by class 'menu-item'. the container may also contain non-item children!
    -->
   <div id="menuItemContainer">
-    <div class="menu-item" *ngFor="let itemLabel of menuItemLabels; let i=index" [ngStyle]="{'transform': getMenuItemStyle(i) }">
+    <div class="menu-item" *ngFor="let itemLabel of menuItemLabels; let i=index"
+      [ngStyle]="{'transform': getMenuItemStyle(i) }">
       {{itemLabel}}
     </div>
-    
-    <div class="menuOrigin"
-      [ngStyle]="{'transform': getMenuItemStyle(-1)}"></div>
-  </div>
-  <div class="pie">
-    <div class="active-circle-sector"></div>
+
+    <div class="menuOrigin" [ngStyle]="{'transform': getMenuItemStyle(-1)}"></div>
   </div>
 
-  <p *ngIf="targetIndex !== -1"
-  class="selection-info">
-  triggered selected item: {{targetIndex}}
-</p>
+  <div class="minimap">
+    <div class="pie">
+      <div class="active-circle-sector"></div>
+    </div>
+
+    <p *ngIf="targetIndex !== -1" class="selection-info">
+      triggered selected item: {{targetIndex}}
+    </p>
+  </div>
 
 
 </div>

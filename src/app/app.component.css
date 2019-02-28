@@ -4,6 +4,7 @@
     grid-template-areas: 
         "title"
         "description"
+        "menu-buttons"
         "radial-menu"
         ;
 
@@ -21,6 +22,8 @@
         grid-template-areas: 
             "title title title title title"
             "description description description description description "
+            "description description description description description "
+            ". menu-buttons menu-buttons menu-buttons ."
             "radial-menu radial-menu radial-menu radial-menu radial-menu "
             ;
     }
@@ -33,6 +36,10 @@
 
 .description {
     grid-area: description;
+}
+
+.menu-buttons {
+    grid-area: menu-buttons;
 }
 
 .radial-menu {
