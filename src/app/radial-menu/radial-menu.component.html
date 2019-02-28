@@ -24,7 +24,7 @@
   (clickElsewhere)="mouseUpOutside($event)"
 >
   <!-- track mouse movement only while the mouse is pressed -->
-  <div *ngIf="isMouseDown" appMouseMover (mouseMoved)="mouseMove($event)"></div>
+  <div *ngIf="isPointerDown" appMouseMover (mouseMoved)="mouseMove($event)"></div>
 
   <div class="mouse-down-marker">
   </div>
