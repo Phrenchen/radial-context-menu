@@ -1,9 +1,24 @@
 <button (click)="showPortfolioMenu()">Portfolio Menu</button>
-<button (click)="resetMenu()">Reset Menu</button>
+<button (click)="showYesNoMenu()">2 Options Menu</button>
+<button (click)="showRandomMenu()">Random Menu</button>
 
+
+<!-- (panstart)="onPanStart($event)" -->
+<!-- (panend)="onPanEnd($event)" -->
 <div class="dropdown-menu" 
   (mousedown)="mouseDown($event)"
   (mouseup)="mouseUp($event)"
+
+  (press)="onPress($event)"
+  (pressup)="onPressUp($event)"
+  
+  (pan)="onPan($event)"
+  (panmove)="onPanMove($event)"
+  (pancancel)="onPanCancel($event)"
+  (panleft)="onPanLeft($event)"
+  (panright)="onPanRight($event)"
+  (panup)="onPanUp($event)"
+  (pandown)="onPanDown($event)"
 
   appClickOutsideDetector
   (clickElsewhere)="mouseUpOutside($event)"
@@ -11,8 +26,7 @@
   <!-- track mouse movement only while the mouse is pressed -->
   <div *ngIf="isMouseDown" appMouseMover (mouseMoved)="mouseMove($event)"></div>
 
-  <div 
-    class="mouse-down-marker">
+  <div class="mouse-down-marker">
   </div>
 
   <!-- 
