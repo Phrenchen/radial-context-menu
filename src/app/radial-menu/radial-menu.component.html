@@ -5,18 +5,21 @@
   (panleft)="onPanLeft($event)" (panright)="onPanRight($event)" (panup)="onPanUp($event)" (pandown)="onPanDown($event)"
   appClickOutsideDetector (clickElsewhere)="mouseUpOutside($event)">
   <!-- track mouse movement only while the mouse is pressed -->
-  <div *ngIf="isPointerDown" appMouseMover (mouseMoved)="mouseMove($event)"></div>
+<!-- </div> -->
 
+<!-- 
+  positions items on circle
+  
+  TODO: find menu-items as children of container: multiple item selections can be used!
+  important: filter children by class 'menu-item'. the container may also contain non-item children!
+-->
+<div id="menuItemContainer">
+  
+  <!-- <div *ngIf="isPointerDown" appMouseMover (mouseMoved)="mouseMove($event)"></div> -->
+  <div  appMouseMover (mouseMoved)="mouseMove($event)"></div>
+  
   <div class="mouse-down-marker">
-  </div>
-
-  <!-- 
-    positions items on circle
-
-    TODO: find menu-items as children of container: multiple item selections can be used!
-    important: filter children by class 'menu-item'. the container may also contain non-item children!
-   -->
-  <div id="menuItemContainer">
+  
     <div class="menu-item" *ngFor="let itemLabel of menuItemLabels; let i=index"
       [ngStyle]="{'transform': getMenuItemStyle(i) }">
       {{itemLabel}}

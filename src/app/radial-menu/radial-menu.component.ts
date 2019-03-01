@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { Point } from './model/Point';
 
 
@@ -16,6 +16,8 @@ import { Point } from './model/Point';
 })
 export class RadialMenuComponent implements OnInit, AfterViewInit {
 
+  @Input() origin: Point;
+
   public isPointerDown = false;
 
   public menuItemLabels: string[];
@@ -31,10 +33,10 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private pointerUpPosition: Point = new Point();
   private currentPointerPosition: Point = new Point();
 
-  private selectionColor = 'white';
+  private selectedItemColor = 'blue';
   private unselectedColor = 'black';
-  private activeCircleBackgroundColor = 'black';
-  private mouseDownMarkerColor = 'white';
+  private activeCircleBackgroundColor = 'darkred';
+  private mouseDownMarkerColor = 'red';
 
 
 
@@ -88,6 +90,8 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     }
     this.menuItemCount = this.menuItemLabels.length;
     this.offsetAngle = 360 / this.menuItemCount;
+    // this.menuRadiusPx = ;
+
     this.targetIndex = -1;
     this.isPointerDown = false;
     this.pointerDownPosition.reset();
@@ -124,6 +128,9 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
         const style = 'linear-gradient(' + endAngle + 'deg, transparent 50%, ' + backgroundColor + ' 50%), ' +
           'linear-gradient(' + startAngle + 'deg, ' + backgroundColor + ' 50%, transparent 50%)';
 
+        // activeCircleSector.style.top = this.currentPointerPosition.y.toString();
+        // activeCircleSector.style.left = this.currentPointerPosition.x.toString();
+        // this.setPositionToCurrentPointer(activeCircleSector, this.currentPointerPosition);
         activeCircleSector.style.opacity = '0.5';
         activeCircleSector.style.backgroundImage = style;
         return style;
@@ -131,6 +138,15 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     }
     activeCircleSector.style.opacity = '0';
     return '';
+  }
+
+  private setPositionToCurrentPointer(item: HTMLElement, position: Point): void {
+    // const mouseDownMarker = document.querySelector('.menuItemContainer') as HTMLElement;
+    if (!item || !position) {
+      return;
+    }
+    item.style.left = (position.x - item.clientWidth * .5) + 'px';
+    item.style.top = (position.y - item.clientHeight * .5) + 'px';
   }
 
   private updateMarker(): void {
@@ -143,8 +159,9 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     if (this.isPointerDown) {
       mouseDownMarker.style.color = this.mouseDownMarkerColor;
       mouseDownMarker.style.opacity = '1';
-      mouseDownMarker.style.left = (this.pointerDownPosition.x - mouseDownMarker.clientWidth * .5) + 'px';
-      mouseDownMarker.style.top = (this.pointerDownPosition.y - mouseDownMarker.clientHeight * .5) + 'px';
+      this.setPositionToCurrentPointer(mouseDownMarker, this.pointerDownPosition);
+      // mouseDownMarker.style.left = (this.pointerDownPosition.x - mouseDownMarker.clientWidth * .5) + 'px';
+      // mouseDownMarker.style.top = (this.pointerDownPosition.y - mouseDownMarker.clientHeight * .5) + 'px';
     } else {
       mouseDownMarker.style.opacity = '0';
     }
@@ -159,6 +176,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.pointerDownPosition.x = event.changedPointers[0].clientX;
     this.pointerDownPosition.y = event.changedPointers[0].clientY;
     this.isPointerDown = true;
+    this.showMenu();
   }
 
   public onPressUp(event): void {
@@ -210,7 +228,15 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
   // PAN END
 
-
+  /**
+   * sets position for menu.
+   * is switched to "on", here!
+   */
+  private showMenu(): void {
+    const menu: HTMLElement = document.querySelector('#menuItemContainer');
+    this.setPositionToCurrentPointer(menu, this.pointerDownPosition);
+    console.log('menu: ' + menu.style.top + ', ' + menu.style.left);
+  }
 
   // TOUCH EVENTS END
 
@@ -220,6 +246,8 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.pointerDownPosition.y = event.clientY;
     this.isPointerDown = true;
 
+    
+   
     this.updateMarker();
   }
 
@@ -255,7 +283,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   // PRIVATE
   private updateMenu(): void {
     this.targetIndex = this.calculateTargetIndex();
-
+    this.showMenu();
     // update active section
     this.getActiveSectorStyle();
 
@@ -322,7 +350,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private updateMenuItems(menuItems: NodeListOf<HTMLElement>, selectedIndex: number): void {
     menuItems.forEach((item, index) => {
       if (index === selectedIndex) {
-        item.style.color = this.selectionColor;
+        item.style.color = this.selectedItemColor;
         item.style.fontWeight = 'bold';
         item.style.fontSize = '30px';
       } else {
