@@ -17,7 +17,7 @@
     
 }
 
-#menuItemContainer {
+#menu-item-container {
     /* position: fixed; */
     /* left: calc(100vw * 0.5);
     top: 60vh; */
@@ -65,8 +65,8 @@
     height: 5em;
     
     border-radius: 50%;
-    border: 1px solid black;
-    margin: 1em;
+    /* border: 1px solid black; */
+    /* margin: 1em; */
 }
 
 .active-circle-sector {

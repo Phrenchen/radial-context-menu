@@ -35,8 +35,8 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   private selectedItemColor = 'blue';
   private unselectedColor = 'black';
+  private mouseDownMarkerColor = this.unselectedColor;
   private activeCircleBackgroundColor = 'darkred';
-  private mouseDownMarkerColor = 'red';
 
 
 
@@ -142,7 +142,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
 
   private setPositionToCurrentPointer(item: HTMLElement, position: Point): void {
-    // const mouseDownMarker = document.querySelector('.menuItemContainer') as HTMLElement;
+    // const mouseDownMarker = document.querySelector('.menu-item-container') as HTMLElement;
     if (!item || !position) {
       return;
     }
@@ -237,9 +237,9 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
    */
   private showMenu(): void {
     // DOM query
-    const menu: HTMLElement = document.querySelector('#menuItemContainer');
+    const menu: HTMLElement = document.querySelector('#menu-item-container');
     this.setPositionToCurrentPointer(menu, this.pointerDownPosition);
-    console.log('menu: ' + menu.style.top + ', ' + menu.style.left);
+    // console.log('menu: ' + menu.style.top + ', ' + menu.style.left);
   }
 
   // TOUCH EVENTS END
