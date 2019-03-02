@@ -110,9 +110,10 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     return styleStr;
   }
 
-  
+
 
   private getActiveSectorStyle(): string {
+    // DOM query
     const activeCircleSector = document.querySelector('.active-circle-sector') as HTMLElement;
 
     if (!activeCircleSector) {
@@ -150,6 +151,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
 
   private updateMarker(): void {
+    // DOM query
     const mouseDownMarker = document.querySelector('.mouse-down-marker') as HTMLElement;
 
     if (!mouseDownMarker) {
@@ -201,6 +203,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     const x = pointerEvent.clientX;
     const y = pointerEvent.clientY;
 
+    // updatet current pointer position
     this.currentPointerPosition.x = x;
     this.currentPointerPosition.y = y;
 
@@ -233,6 +236,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
    * is switched to "on", here!
    */
   private showMenu(): void {
+    // DOM query
     const menu: HTMLElement = document.querySelector('#menuItemContainer');
     this.setPositionToCurrentPointer(menu, this.pointerDownPosition);
     console.log('menu: ' + menu.style.top + ', ' + menu.style.left);
@@ -246,8 +250,8 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.pointerDownPosition.y = event.clientY;
     this.isPointerDown = true;
 
-    
-   
+
+
     this.updateMarker();
   }
 
@@ -339,7 +343,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
 
 
-  
+
   private updateItemSelection(): void {
     const menuItems: NodeListOf<HTMLElement> = document.querySelectorAll('.menu-item') as NodeListOf<HTMLElement>;
     if (menuItems && menuItems.length >= this.targetIndex) {

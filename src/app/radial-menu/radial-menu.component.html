@@ -19,13 +19,12 @@
   <div  appMouseMover (mouseMoved)="mouseMove($event)"></div>
   
   <div class="mouse-down-marker">
-  
     <div class="menu-item" *ngFor="let itemLabel of menuItemLabels; let i=index"
       [ngStyle]="{'transform': getMenuItemStyle(i) }">
       {{itemLabel}}
     </div>
 
-    <div class="menuOrigin" [ngStyle]="{'transform': getMenuItemStyle(-1)}"></div>
+    <!-- <div class="menuOrigin" [ngStyle]="{'transform': getMenuItemStyle(-1)}"></div> -->
   </div>
 
   <div class="minimap">
