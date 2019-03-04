@@ -3,13 +3,17 @@
     position: absolute;
     left: 0px;
     top: 0px;
+
     z-index: 999;
 
-    /* width: 100vw; */
-    /* height: 50vh; */
     width: 100%;
-    height: 100%;
 
+    /* hacky way of ensuring sufficient height for clickable area for the menu
+        - assuming the total scrollable page content is not heigher than 3 full screens.
+    */
+    height: calc(3 * 100vh);
+
+    border: 3px dotted pink;
 
     /* background: rgb(143, 146, 185); */
     /* z-index: 999; */

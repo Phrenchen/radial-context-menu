@@ -60,4 +60,13 @@ export class RadialMenuHelper {
         item.style.left = (position.x - item.clientWidth * .5) + 'px';
         item.style.top = (position.y - item.clientHeight * .5) + 'px';
       }
+
+      // calculates offset of browser scrolling content
+      // used to position menu
+      public static pageScrollOffset(): Point {
+        const top  = window.pageYOffset || document.documentElement.scrollTop;
+        const left = window.pageXOffset || document.documentElement.scrollLeft;
+
+        return new Point(left, top);
+      }
 }

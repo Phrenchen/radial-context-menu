@@ -167,8 +167,12 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   // PRESS
   public onPress(event): void {
-    this.pointerDownPosition.x = event.changedPointers[0].clientX;
-    this.pointerDownPosition.y = event.changedPointers[0].clientY;
+    const pageScrollOffset: Point = RadialMenuHelper.pageScrollOffset();
+
+    console.log(pageScrollOffset);
+
+    this.pointerDownPosition.x = event.changedPointers[0].clientX + pageScrollOffset.x;
+    this.pointerDownPosition.y = event.changedPointers[0].clientY + pageScrollOffset.y;
     this.isPointerDown = true;
     this.showMenu();
   }
@@ -177,6 +181,8 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.pointerUpPosition.x = event.changedPointers[0].clientX;
     this.pointerUpPosition.y = event.changedPointers[0].clientY;
     this.isPointerDown = false;
+
+    console.log(event);
   }
   // PRESS END
 
@@ -192,10 +198,11 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     }
 
     const pointerEvent = event.changedPointers[0];
-    const x = pointerEvent.clientX;
-    const y = pointerEvent.clientY;
+    const pageScrollOffset: Point = RadialMenuHelper.pageScrollOffset();
+    const x = pointerEvent.clientX + pageScrollOffset.x;
+    const y = pointerEvent.clientY + pageScrollOffset.y;
 
-    // updatet current pointer position
+    // update current pointer position
     this.currentPointerPosition.x = x;
     this.currentPointerPosition.y = y;
 
@@ -238,9 +245,13 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   // MOUSE EVENTS
   public mouseDown(event: MouseEvent): void {
-    this.pointerDownPosition.x = event.clientX;
-    this.pointerDownPosition.y = event.clientY;
-    
+    const pageScrollOffset: Point = RadialMenuHelper.pageScrollOffset();
+
+    console.log(pageScrollOffset);
+
+    this.pointerDownPosition.x = event.clientX + pageScrollOffset.x;
+    this.pointerDownPosition.y = event.clientY + pageScrollOffset.y;
+
     this.isPointerDown = true;
 
     this.updateMarker();
@@ -249,6 +260,8 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   public mouseUp(event: MouseEvent): void {
     this.pointerUpPosition.x = event.clientX;
     this.pointerUpPosition.y = event.clientY;
+
+    console.log(event);
 
     this.isPointerDown = false;
 
@@ -268,8 +281,10 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     if (!this.isPointerDown) {
       return;
     }
-    this.currentPointerPosition.x = event.clientX;
-    this.currentPointerPosition.y = event.clientY;
+
+    const pageScrollOffset: Point = RadialMenuHelper.pageScrollOffset();
+    this.currentPointerPosition.x = event.clientX + pageScrollOffset.x;
+    this.currentPointerPosition.y = event.clientY + pageScrollOffset.y;
 
     this.updateMenu();
   }
