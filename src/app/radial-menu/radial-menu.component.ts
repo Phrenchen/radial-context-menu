@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { Point } from './model/Point';
+import { RadialMenuHelper } from './RadialMenuHelper';
 
 
 /**
@@ -28,8 +29,9 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private menuItemCount = 0;
 
   private radiusUnit = 'px';
-  private menuRadiusPx = 150;
+  private menuRadiusPx = 150;                             // unit depentds on radiusUnit value: 'px', 'vmin', ...
   private offsetAngle = 0;
+  private cancelDistanceToOriginDistance = 50;           // Pixel
 
   private pointerDownPosition: Point = new Point();
   private pointerUpPosition: Point = new Point();
@@ -106,7 +108,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   public getMenuItemStyle(index: number): string {
     const radius = index >= 0 ? this.menuRadiusPx : 1;
     index = index >= 0 ? index : 0;
-    const rotateAngle = this.calculateAngleToItemOnCircle(index);
+    const rotateAngle = RadialMenuHelper.calculateAngleToItemOnCircle(index, this.offsetAngle);
 
     const styleStr = 'rotate(' + rotateAngle + 'deg) translate(0, -' + radius + this.radiusUnit + ') rotate(-' + rotateAngle + 'deg)';
     return styleStr;
@@ -124,16 +126,13 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
     if (this.isPointerDown) {
       if (this.hasTarget) {
-        const angleToTarget = this.calculateAngleToItemOnCircle(Math.max(0, this.targetIndex));
+        const angleToTarget = RadialMenuHelper.calculateAngleToItemOnCircle(Math.max(0, this.targetIndex), this.offsetAngle);
         const startAngle = (angleToTarget + 90 - this.offsetAngle * .5);
         const endAngle = (angleToTarget + 90 + this.offsetAngle * .5);
         const backgroundColor = this.activeCircleBackgroundColor;
         const style = 'linear-gradient(' + endAngle + 'deg, transparent 50%, ' + backgroundColor + ' 50%), ' +
           'linear-gradient(' + startAngle + 'deg, ' + backgroundColor + ' 50%, transparent 50%)';
 
-        // activeCircleSector.style.top = this.currentPointerPosition.y.toString();
-        // activeCircleSector.style.left = this.currentPointerPosition.x.toString();
-        // this.setPositionToCurrentPointer(activeCircleSector, this.currentPointerPosition);
         activeCircleSector.style.opacity = '0.5';
         activeCircleSector.style.backgroundImage = style;
         return style;
@@ -141,15 +140,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     }
     activeCircleSector.style.opacity = '0';
     return '';
-  }
-
-  private setPositionToCurrentPointer(item: HTMLElement, position: Point): void {
-    // const mouseDownMarker = document.querySelector('.menu-item-container') as HTMLElement;
-    if (!item || !position) {
-      return;
-    }
-    item.style.left = (position.x - item.clientWidth * .5) + 'px';
-    item.style.top = (position.y - item.clientHeight * .5) + 'px';
   }
 
   private updateMarker(): void {
@@ -163,7 +153,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     if (this.isPointerDown) {
       mouseDownMarker.style.color = this.mouseDownMarkerColor;
       mouseDownMarker.style.opacity = '1';
-      this.setPositionToCurrentPointer(mouseDownMarker, this.pointerDownPosition);
+      RadialMenuHelper.setPositionToCurrentPointer(mouseDownMarker, this.pointerDownPosition);
       // mouseDownMarker.style.left = (this.pointerDownPosition.x - mouseDownMarker.clientWidth * .5) + 'px';
       // mouseDownMarker.style.top = (this.pointerDownPosition.y - mouseDownMarker.clientHeight * .5) + 'px';
     } else {
@@ -240,7 +230,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private showMenu(): void {
     // DOM query
     const menu: HTMLElement = document.querySelector('#menu-item-container');
-    this.setPositionToCurrentPointer(menu, this.pointerDownPosition);
+    RadialMenuHelper.setPositionToCurrentPointer(menu, this.pointerDownPosition);
     // console.log('menu: ' + menu.style.top + ', ' + menu.style.left);
   }
 
@@ -250,9 +240,8 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   public mouseDown(event: MouseEvent): void {
     this.pointerDownPosition.x = event.clientX;
     this.pointerDownPosition.y = event.clientY;
+    
     this.isPointerDown = true;
-
-
 
     this.updateMarker();
   }
@@ -287,10 +276,27 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   // MOUSE EVENTS END
 
   // PRIVATE
+
+  /**
+   * - called on pointer-move.
+   * - updates selection
+   */
   private updateMenu(): void {
     const oldTargetIndex = this.targetIndex;
     this.targetIndex = this.calculateTargetIndex();
-    
+
+    /**
+     * - abort menu
+     * - if current pointer is too close to the origin:
+     *    - pointer-up closes the menu (hides it)
+     *    - triggeres no action.
+     *    - cancels selection
+     */
+    if (this.checkMenuCancel()) {
+      this.hideMenu();
+      // return;
+    }
+
     if (oldTargetIndex !== this.targetIndex) {
       this.selectedTargetIndex.emit(this.targetIndex);
     }
@@ -301,7 +307,16 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     // highlight selected DOM element
     this.updateItemSelection();
 
+  }
 
+  private checkMenuCancel(): boolean {
+    const distanceToOrigin: number = RadialMenuHelper.calculateDistance(this.pointerDownPosition, this.currentPointerPosition);
+    return distanceToOrigin < this.cancelDistanceToOriginDistance;
+  }
+
+  private hideMenu(): void {
+    // unselect target
+    this.targetIndex = -1;
   }
 
   private calculateTargetIndex(): number {
@@ -315,14 +330,14 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
     // for each item: calculate position on circle
     for (let i = 0; i < this.menuItemCount; i++) {
-      angle = this.calculateAngleToItemOnCircle(i);
-      position = this.calculateCurrentPositionOnCircle(this.pointerDownPosition,
+      angle = RadialMenuHelper.calculateAngleToItemOnCircle(i, this.offsetAngle);
+      position = RadialMenuHelper.calculateCurrentPositionOnCircle(this.pointerDownPosition,
         this.currentPointerPosition,
         this.menuRadiusPx,
         angle);
 
       // calculate distance to current position on circle
-      distance = this.calculateDistance(this.currentPointerPosition, position);
+      distance = RadialMenuHelper.calculateDistance(this.currentPointerPosition, position);
 
       if (distance < minDistance) {
         candidateIndex = i;
@@ -334,64 +349,16 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
 
   // ITEM SELECTION
-  /**
-   * calculate closest item-position on the menu circle
-   * then we can get the index of the closest item and apply attached action
-   * actions:
-   *  - open details
-   *  - more information about
-   *  - delete menu-target
-   */
-  private calculateCurrentPositionOnCircle(center: Point, targetPosition: Point, radius: number, angle: number): Point {
-    angle -= 90;
-    const radians = angle * (Math.PI / 180);
-    const positionOnCircle: Point = new Point(center.x + radius * Math.cos(radians),
-      center.y + radius * Math.sin(radians));
-
-    return positionOnCircle;
-  }
-
-
 
   private updateItemSelection(): void {
     const menuItems: NodeListOf<HTMLElement> = document.querySelectorAll('.menu-item') as NodeListOf<HTMLElement>;
     if (menuItems && menuItems.length >= this.targetIndex) {
-      this.updateMenuItems(menuItems, this.targetIndex);
+      RadialMenuHelper.updateMenuItems(menuItems, this.targetIndex, this.selectedItemColor, this.unselectedColor);
     }
   }
 
-  private updateMenuItems(menuItems: NodeListOf<HTMLElement>, selectedIndex: number): void {
-    menuItems.forEach((item, index) => {
-      if (index === selectedIndex) {
-        item.style.color = this.selectedItemColor;
-        item.style.fontWeight = 'bold';
-        item.style.fontSize = '30px';
-      } else {
-        // TODO: only reset last active item. new member 'lastSelectedIndex
-        item.style.color = this.unselectedColor;
-        item.style.fontWeight = 'normal';
-        item.style.fontSize = '15px';
-      }
-    });
-  }
-
-  private calculateDistance(p1: Point, p2: Point): number {
-    const dx = p2.x - p1.x;
-    const dy = p2.y - p1.y;
-
-    return Math.sqrt(dx * dx + dy * dy);
-  }
-
-  private calculateAngleToItemOnCircle(index: number): number {
-    return this.offsetAngle * index;
-  }
-
-  // private calculateAngle(mouseDownPosition: Point, mouseUpPosition: Point): number {
-  //   return mouseDownPosition.angleTo(mouseUpPosition);
-  // }
-
   private get hasTarget(): boolean {
-    return this.targetIndex !== -1;
+    return RadialMenuHelper.hasSelectedTarget(this.targetIndex);
   }
   // ITEM SELECTION END
 }

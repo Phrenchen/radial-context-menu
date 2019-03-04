@@ -13,7 +13,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public title = 'radial-menu';
 
-  public targetIndex: number;
+  public targetIndex = -1;
 
   // LIFE CYCLE
   constructor() { }

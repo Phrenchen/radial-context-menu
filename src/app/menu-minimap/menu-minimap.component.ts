@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { RadialMenuHelper } from '../radial-menu/RadialMenuHelper';
 
 @Component({
   selector: 'app-menu-minimap',
@@ -7,15 +8,17 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MenuMinimapComponent implements OnInit {
 
-  @Input() selectedTargetIndex = 1;
+  @Input() selectedTargetIndex: number;
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
+
 
   public get targetLabel(): string {
-    return 'selected: ' + this.selectedTargetIndex.toString();
+    return RadialMenuHelper.hasSelectedTarget(this.selectedTargetIndex) ?
+      'selected: ' + this.selectedTargetIndex :
+      'nothing selected';
   }
 
 }
