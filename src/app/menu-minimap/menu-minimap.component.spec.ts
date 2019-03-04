@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MenuItemComponent } from './menu-item.component';
+import { MenuMinimapComponent } from './menu-minimap.component';
 
-describe('MenuItemComponent', () => {
-  let component: MenuItemComponent;
-  let fixture: ComponentFixture<MenuItemComponent>;
+describe('MenuMinimapComponent', () => {
+  let component: MenuMinimapComponent;
+  let fixture: ComponentFixture<MenuMinimapComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MenuItemComponent ]
+      declarations: [ MenuMinimapComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MenuItemComponent);
+    fixture = TestBed.createComponent(MenuMinimapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

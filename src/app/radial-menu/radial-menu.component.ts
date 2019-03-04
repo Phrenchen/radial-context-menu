@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { Point } from './model/Point';
 
 
@@ -17,10 +17,12 @@ import { Point } from './model/Point';
 export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   @Input() origin: Point;
+  @Output() selectedTargetIndex: EventEmitter<number> = new EventEmitter();
 
   public isPointerDown = false;
 
   public menuItemLabels: string[];
+
   public targetIndex = -1;
 
   private menuItemCount = 0;
@@ -111,7 +113,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
 
 
-
+  // TODO: move to static helper method
   private getActiveSectorStyle(): string {
     // DOM query
     const activeCircleSector = document.querySelector('.active-circle-sector') as HTMLElement;
@@ -286,13 +288,20 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   // PRIVATE
   private updateMenu(): void {
+    const oldTargetIndex = this.targetIndex;
     this.targetIndex = this.calculateTargetIndex();
+    
+    if (oldTargetIndex !== this.targetIndex) {
+      this.selectedTargetIndex.emit(this.targetIndex);
+    }
     this.showMenu();
     // update active section
     this.getActiveSectorStyle();
 
     // highlight selected DOM element
     this.updateItemSelection();
+
+
   }
 
   private calculateTargetIndex(): number {
