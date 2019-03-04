@@ -8,17 +8,13 @@
 
     width: 100%;
 
-    /* hacky way of ensuring sufficient height for clickable area for the menu
-        - assuming the total scrollable page content is not heigher than 3 full screens.
-    */
-    height: calc(3 * 100vh);
+    height: 100%;
 
     border: 3px dotted pink;
 
     /* background: rgb(143, 146, 185); */
     /* z-index: 999; */
     user-select: none;
-    
 }
 
 

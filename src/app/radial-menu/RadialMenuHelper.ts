@@ -52,7 +52,7 @@ export class RadialMenuHelper {
         });
       }
 
-      public static setPositionToCurrentPointer(item: HTMLElement, position: Point): void {
+      public static moveToPosition(item: HTMLElement, position: Point): void {
         // const mouseDownMarker = document.querySelector('.menu-item-container') as HTMLElement;
         if (!item || !position) {
           return;
@@ -63,10 +63,18 @@ export class RadialMenuHelper {
 
       // calculates offset of browser scrolling content
       // used to position menu
+      // TODO: calculate and cache once per frame!
+      //   no idea how expensive this is. will be calculated multiple times on pointer-move...
+      // CHECK if performance goes down!
       public static pageScrollOffset(): Point {
         const top  = window.pageYOffset || document.documentElement.scrollTop;
         const left = window.pageXOffset || document.documentElement.scrollLeft;
 
         return new Point(left, top);
+      }
+
+      public static getScreenPosition(x: number, y: number): Point {
+        const pageScrollOffset: Point = RadialMenuHelper.pageScrollOffset();
+        return new Point(x + pageScrollOffset.x, y + pageScrollOffset.y);
       }
 }
