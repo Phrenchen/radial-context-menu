@@ -43,7 +43,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private activeCircleBackgroundColor = 'darkred';
 
 
-
   // LIFE CYCLE
   constructor() {
     this.showRandomMenu();
@@ -145,19 +144,29 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private updateMarker(): void {
     // DOM query
     const mouseDownMarker = document.querySelector('.mouse-down-marker') as HTMLElement;
+    const itemContainer = document.querySelector('.item-container') as HTMLElement;
 
     if (!mouseDownMarker) {
       return;
     }
 
+
+
     if (this.isPointerDown) {
       mouseDownMarker.style.color = this.mouseDownMarkerColor;
       mouseDownMarker.style.opacity = '1';
+      itemContainer.style.opacity = '1';
+
       RadialMenuHelper.moveToPosition(mouseDownMarker, this.pointerDownPosition);
+      RadialMenuHelper.moveToPosition(itemContainer, this.pointerDownPosition);
       // mouseDownMarker.style.left = (this.pointerDownPosition.x - mouseDownMarker.clientWidth * .5) + 'px';
       // mouseDownMarker.style.top = (this.pointerDownPosition.y - mouseDownMarker.clientHeight * .5) + 'px';
     } else {
       mouseDownMarker.style.opacity = '0';
+
+      if (!this.hasTarget) {
+        itemContainer.style.opacity = '0';
+      }
     }
   }
   // STYLING VIEW END
@@ -169,12 +178,11 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   public onPress(event): void {
     const pageScrollOffset: Point = RadialMenuHelper.pageScrollOffset();
 
-    console.log(pageScrollOffset);
+    // console.log(pageScrollOffset);
 
     this.pointerDownPosition.x = event.changedPointers[0].clientX + pageScrollOffset.x;
     this.pointerDownPosition.y = event.changedPointers[0].clientY + pageScrollOffset.y;
     this.isPointerDown = true;
-    this.showMenu();
   }
 
   public onPressUp(event): void {
@@ -182,7 +190,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.pointerUpPosition.y = event.changedPointers[0].clientY;
     this.isPointerDown = false;
 
-    console.log(event);
+    // console.log(event);
   }
   // PRESS END
 
@@ -210,6 +218,17 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     this.updateMenu();
   }
 
+  /**
+   * methods called from app-component.
+   */
+
+  public update(): void {
+    console.log('updating menu');
+  }
+
+
+  // ----
+
   public onPanCancel(event): void {
 
   }
@@ -230,16 +249,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   }
   // PAN END
-
-  /**
-   * sets position for menu.
-   * is switched to "on", here!
-   */
-  private showMenu(): void {
-    // DOM query
-    const menu: HTMLElement = document.querySelector('#menu-item-container');
-    RadialMenuHelper.moveToPosition(menu, this.pointerDownPosition);
-  }
 
   // TOUCH EVENTS END
 
@@ -309,7 +318,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     if (oldTargetIndex !== this.targetIndex) {
       this.selectedTargetIndex.emit(this.targetIndex);
     }
-    this.showMenu();
     // update active section
     this.getActiveSectorStyle();
 

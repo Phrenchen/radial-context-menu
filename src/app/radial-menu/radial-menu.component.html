@@ -1,9 +1,12 @@
 <!-- (panstart)="onPanStart($event)" -->
 <!-- (panend)="onPanEnd($event)" -->
-<div class="dropdown-menu" (mousedown)="mouseDown($event)" (mouseup)="mouseUp($event)" (press)="onPress($event)"
+<div class="point-move-area" appMouseMover (mouseMoved)="mouseMove($event)"
+  (mousedown)="mouseDown($event)" (mouseup)="mouseUp($event)" (press)="onPress($event)"
   (pressup)="onPressUp($event)" (pan)="onPan($event)" (panmove)="onPanMove($event)" (pancancel)="onPanCancel($event)"
   (panleft)="onPanLeft($event)" (panright)="onPanRight($event)" (panup)="onPanUp($event)" (pandown)="onPanDown($event)"
   appClickOutsideDetector (clickElsewhere)="mouseUpOutside($event)">
+
+<div class="dropdown-menu" >
   <!-- track mouse movement only while the mouse is pressed -->
 <!-- </div> -->
 
@@ -13,29 +16,15 @@
   TODO: find menu-items as children of container: multiple item selections can be used!
   important: filter children by class 'menu-item'. the container may also contain non-item children!
 -->
-<div id="menu-item-container">
-  
-  <!-- <div *ngIf="isPointerDown" appMouseMover (mouseMoved)="mouseMove($event)"></div> -->
-  <div  appMouseMover (mouseMoved)="mouseMove($event)"></div>
-  
+
   <div class="mouse-down-marker">
+  </div>
+
+  <div class="item-container">
     <div class="menu-item" *ngFor="let itemLabel of menuItemLabels; let i=index"
       [ngStyle]="{'transform': getMenuItemStyle(i) }">
       {{itemLabel}}
     </div>
-
-    <!-- <div class="menuOrigin" [ngStyle]="{'transform': getMenuItemStyle(-1)}"></div> -->
   </div>
-
-  <!-- <div class="minimap">
-    <div class="pie">
-      <div class="active-circle-sector"></div>
-    </div>
-
-    <p *ngIf="targetIndex !== -1" class="selection-info">
-      triggered selected item: {{targetIndex}}
-    </p>
-  </div> -->
-
 
 </div>

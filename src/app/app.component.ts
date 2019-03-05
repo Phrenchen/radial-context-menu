@@ -15,18 +15,79 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public targetIndex = -1;
 
+  /**
+   * - animation frame handling
+   * - FPS
+   * - 'game loop' continiously called every render-cycle
+   */
+  private frameCount = 0;
+  private fps = 1;
+  private fpsInterval = 1;
+  private now = 0;
+  private last = 0;
+  private elapsed = 0;
+
+  private unselectedMenuHideDelayInFps = 3;   // 3 at 1 fps => 3 seconds
+
+
+  //  -----
+
   // LIFE CYCLE
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.menu);
   }
 
   ngAfterViewInit(): void {
-    console.log(this.menu);
-
+    this.startAnimationFrames();
   }
   // LIFE CYCLE END
+
+  /**
+   * - animation frame handling
+   * - FPS
+   * - 'game loop' continiously called every render-cycle
+   */
+  private startAnimationFrames(): void {
+    this.fpsInterval = 1000 / this.fps;
+    this.last = Date.now();
+
+    this.animateFrame();
+  }
+
+  // may be called more often than fps
+  // need fps cap for smooth animations
+  private animateFrame(): void {
+    // request next frame. wrap in arrow function to avoid this-binding-messups
+    requestAnimationFrame(() => {
+      this.animateFrame();
+    });
+
+    this.now = Date.now();
+    this.elapsed = this.now - this.last;
+
+
+    // TODO: check hiding of unselected menu with pointer up
+    /**
+     * - menu must emit event when switching pointerDown to false
+     * - measure time since that event and hide menu (only if no selected item?)
+     */
+
+    // detect each frame. limited to manually set fps
+    if (this.elapsed > this.fpsInterval) {
+      this.last = this.now - (this.elapsed % this.fpsInterval);
+
+      this.frameCount++;
+      console.log(this.frameCount);
+
+      if (this.menu) {
+        this.menu.update();
+      }
+
+    }
+
+  }
+
 
   public targetIndexUpdate(targetIndex: number): void {
     this.targetIndex = targetIndex;
