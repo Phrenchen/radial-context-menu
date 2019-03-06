@@ -2,36 +2,38 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas: 
-        "title"
-        "description"
-        "menu-buttons"
-        "radial-menu"
-        ;
-
+    "title"
+    "description"
+    "menu-buttons"
+    "minimap"
+    /* "radial-menu" */
+    ;
+    
     height: 100vh;
     justify-items: center;
-    align-items: center;
-
-    background-color: rgba(202, 36, 36, 0);
+    align-items: start;
+    
+    background-color: rgba(36, 202, 105, 0);
     
 }
 
 @media only screen and (min-width: 740px) {
     .content-wrapper {
         grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(3, min-content) 1fr;
         grid-template-areas: 
             "title title title title title"
             "description description description description description "
-            "description description description description description "
-            ". menu-buttons menu-buttons menu-buttons ."
-            "radial-menu radial-menu radial-menu radial-menu radial-menu "
+            "minimap menu-buttons menu-buttons menu-buttons ."
             ;
+            /* "radial-menu radial-menu radial-menu radial-menu radial-menu " */
     }
 }
 
 
 .title {
     grid-area: title;
+    /* margin: 0; */
 }
 
 .description {
@@ -42,6 +44,10 @@
     grid-area: menu-buttons;
 }
 
+.minimap {
+    grid-area: minimap;
+}
+
 .radial-menu {
-    grid-area: radial-menu;
+    /* grid-area: radial-menu; */
 }

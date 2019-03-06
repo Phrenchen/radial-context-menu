@@ -131,6 +131,8 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    activeCircleSector.style.opacity = this.hasTarget ? '1' : '0';
+
     if (this.isPointerDown) {
       if (this.hasTarget) {
         const angleToTarget = RadialMenuHelper.calculateAngleToItemOnCircle(Math.max(0, this.targetIndex), this.offsetAngle);
@@ -140,12 +142,10 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
         const style = 'linear-gradient(' + endAngle + 'deg, transparent 50%, ' + backgroundColor + ' 50%), ' +
           'linear-gradient(' + startAngle + 'deg, ' + backgroundColor + ' 50%, transparent 50%)';
 
-        activeCircleSector.style.opacity = '0.5';
         activeCircleSector.style.backgroundImage = style;
         return style;
       }
     }
-    activeCircleSector.style.opacity = '0';
     return '';
   }
 
@@ -209,7 +209,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     if (oldTargetIndex !== this.targetIndex) {
       this.selectedTargetIndex.emit(this.targetIndex);
     }
-    
+
     // highlight selected DOM element
     // update active section
     this.getActiveSectorStyle();
@@ -240,7 +240,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     // for each item: calculate position on circle
     for (let i = 0; i < this.menuItemCount; i++) {
       angle = RadialMenuHelper.calculateAngleToItemOnCircle(i, this.offsetAngle);
-      
+
       position = RadialMenuHelper.calculateCurrentPositionOnCircle(this.inputManager.downPosition,
         this.inputManager.currentPosition,
         this.menuRadiusPx,
