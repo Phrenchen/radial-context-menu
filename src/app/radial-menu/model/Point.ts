@@ -20,4 +20,8 @@ export class Point {
     public reset(): void {
         this.x = this.y = 0;
     }
+
+    public toString(): string {
+        return this.x + ', ' + this.y;
+    }
 }

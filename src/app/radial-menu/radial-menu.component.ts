@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { Point } from './model/Point';
 import { RadialMenuHelper } from './RadialMenuHelper';
+import { InputManager } from './input/InputManager';
+import { InputState } from './input/model/InputState';
 
 
 /**
@@ -20,8 +22,11 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   @Input() origin: Point;
   @Output() selectedTargetIndex: EventEmitter<number> = new EventEmitter();
 
-  public isPointerDown = false;
+  // public isPointerDown = false;
 
+  public get isPointerDown(): boolean {
+    return this.inputManager.isCurrentState(InputState.DOWN);
+  }
   public menuItemLabels: string[];
 
   public targetIndex = -1;
@@ -33,15 +38,16 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private offsetAngle = 0;
   private cancelDistanceToOriginDistance = 50;           // Pixel
 
-  private pointerDownPosition: Point = new Point();
-  private pointerUpPosition: Point = new Point();
-  private currentPointerPosition: Point = new Point();
+  // private pointerDownPosition: Point = new Point();
+  // private pointerUpPosition: Point = new Point();
+  // private currentPointerPosition: Point = new Point();
 
   private selectedItemColor = 'blue';
   private unselectedColor = 'black';
   private mouseDownMarkerColor = this.unselectedColor;
   private activeCircleBackgroundColor = 'darkred';
 
+  private inputManager: InputManager = new InputManager('content-wrapper');
 
   // LIFE CYCLE
   constructor() {
@@ -96,10 +102,12 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     // this.menuRadiusPx = ;
 
     this.targetIndex = -1;
-    this.isPointerDown = false;
-    this.pointerDownPosition.reset();
+    // this.isPointerDown = false;
+    this.inputManager.state = InputState.UP;
+    this.inputManager.downPosition.reset();
+    // this.pointerDownPosition.reset();
 
-    this.updateItemSelection();
+    // this.updateItemSelection();
   }
   // MENU CREATORS END
 
@@ -150,17 +158,13 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
       return;
     }
 
-
-
     if (this.isPointerDown) {
       mouseDownMarker.style.color = this.mouseDownMarkerColor;
       mouseDownMarker.style.opacity = '1';
       itemContainer.style.opacity = '1';
 
-      RadialMenuHelper.moveToPosition(mouseDownMarker, this.pointerDownPosition);
-      RadialMenuHelper.moveToPosition(itemContainer, this.pointerDownPosition);
-      // mouseDownMarker.style.left = (this.pointerDownPosition.x - mouseDownMarker.clientWidth * .5) + 'px';
-      // mouseDownMarker.style.top = (this.pointerDownPosition.y - mouseDownMarker.clientHeight * .5) + 'px';
+      RadialMenuHelper.moveToPosition(mouseDownMarker, this.inputManager.downPosition);
+      RadialMenuHelper.moveToPosition(itemContainer, this.inputManager.downPosition);
     } else {
       mouseDownMarker.style.opacity = '0';
 
@@ -172,126 +176,14 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   // STYLING VIEW END
 
 
-  // TOUCH EVENTS
-
-  // PRESS
-  public onPress(event): void {
-    const pageScrollOffset: Point = RadialMenuHelper.pageScrollOffset();
-
-    // console.log(pageScrollOffset);
-
-    this.pointerDownPosition.x = event.changedPointers[0].clientX + pageScrollOffset.x;
-    this.pointerDownPosition.y = event.changedPointers[0].clientY + pageScrollOffset.y;
-    this.isPointerDown = true;
-  }
-
-  public onPressUp(event): void {
-    this.pointerUpPosition.x = event.changedPointers[0].clientX;
-    this.pointerUpPosition.y = event.changedPointers[0].clientY;
-    this.isPointerDown = false;
-
-    // console.log(event);
-  }
-  // PRESS END
-
-  // PAN
-  // PAN END
-  public onPan(event): void {
-    // console.log('onPan');
-  }
-
-  public onPanMove(event): void {
-    if (!event.changedPointers || event.changedPointers.length === 0) {
-      return;
-    }
-
-    const pointerEvent = event.changedPointers[0];
-
-    const position: Point = RadialMenuHelper.getScreenPosition(pointerEvent.clientX, pointerEvent.clientY);
-    // const pageScrollOffset: Point = RadialMenuHelper.pageScrollOffset();
-    // const x = pointerEvent.clientX + pageScrollOffset.x;
-    // const y = pointerEvent.clientY + pageScrollOffset.y;
-    // update current pointer position
-    this.currentPointerPosition.x = position.x;
-    this.currentPointerPosition.y = position.y;
-
-    this.updateMenu();
-  }
-
   /**
-   * methods called from app-component.
+   * method called once per update-frame (depends on app.fps) from app-component.
    */
 
   public update(): void {
-    console.log('updating menu');
-  }
-
-
-  // ----
-
-  public onPanCancel(event): void {
-
-  }
-
-  public onPanLeft(event): void {
-
-  }
-
-  public onPanRight(event): void {
-
-  }
-
-  public onPanUp(event): void {
-
-  }
-
-  public onPanDown(event): void {
-
-  }
-  // PAN END
-
-  // TOUCH EVENTS END
-
-  // MOUSE EVENTS
-  public mouseDown(event: MouseEvent): void {
-    const position: Point = RadialMenuHelper.getScreenPosition(event.clientX, event.clientY);
-    this.pointerDownPosition.x = position.x;
-    this.pointerDownPosition.y = position.y;
-    this.isPointerDown = true;
-
-    this.updateMarker();
-  }
-
-  public mouseUp(event: MouseEvent): void {
-    const position: Point = RadialMenuHelper.getScreenPosition(event.clientX, event.clientY);
-    this.pointerUpPosition.x = position.x;
-    this.pointerUpPosition.y = position.y;
-    this.isPointerDown = false;
-
-    this.updateMarker();
-  }
-
-  public mouseUpOutside(event: MouseEvent): void {
-    this.mouseUp(event);
-  }
-
-
-  /**
-   * Tracks Mouse Movement
-   * Menu Item Selection
-   */
-  public mouseMove(event: MouseEvent): void {
-    if (!this.isPointerDown) {
-      return;
-    }
-
-    const position: Point = RadialMenuHelper.getScreenPosition(event.clientX, event.clientY);
-    this.currentPointerPosition.x = position.x;
-    this.currentPointerPosition.y = position.y;
-
+    this.inputManager.update();
     this.updateMenu();
   }
-  // MOUSE EVENTS END
 
   // PRIVATE
 
@@ -312,27 +204,27 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
      */
     if (this.checkMenuCancel()) {
       this.hideMenu();
-      // return;
     }
 
     if (oldTargetIndex !== this.targetIndex) {
       this.selectedTargetIndex.emit(this.targetIndex);
     }
+    
+    // highlight selected DOM element
     // update active section
     this.getActiveSectorStyle();
-
-    // highlight selected DOM element
     this.updateItemSelection();
+    this.updateMarker();
 
   }
 
   private checkMenuCancel(): boolean {
-    const distanceToOrigin: number = RadialMenuHelper.calculateDistance(this.pointerDownPosition, this.currentPointerPosition);
+    const distanceToOrigin: number = RadialMenuHelper.calculateDistance(this.inputManager.downPosition, this.inputManager.currentPosition);
     return distanceToOrigin < this.cancelDistanceToOriginDistance;
   }
 
+  // unselect target
   private hideMenu(): void {
-    // unselect target
     this.targetIndex = -1;
   }
 
@@ -348,13 +240,14 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     // for each item: calculate position on circle
     for (let i = 0; i < this.menuItemCount; i++) {
       angle = RadialMenuHelper.calculateAngleToItemOnCircle(i, this.offsetAngle);
-      position = RadialMenuHelper.calculateCurrentPositionOnCircle(this.pointerDownPosition,
-        this.currentPointerPosition,
+      
+      position = RadialMenuHelper.calculateCurrentPositionOnCircle(this.inputManager.downPosition,
+        this.inputManager.currentPosition,
         this.menuRadiusPx,
         angle);
 
       // calculate distance to current position on circle
-      distance = RadialMenuHelper.calculateDistance(this.currentPointerPosition, position);
+      distance = RadialMenuHelper.calculateDistance(this.inputManager.currentPosition, position);
 
       if (distance < minDistance) {
         candidateIndex = i;
@@ -366,7 +259,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
 
   // ITEM SELECTION
-
   private updateItemSelection(): void {
     const menuItems: NodeListOf<HTMLElement> = document.querySelectorAll('.menu-item') as NodeListOf<HTMLElement>;
     if (menuItems && menuItems.length >= this.targetIndex) {

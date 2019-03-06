@@ -21,7 +21,7 @@ export class AppComponent implements OnInit, AfterViewInit {
    * - 'game loop' continiously called every render-cycle
    */
   private frameCount = 0;
-  private fps = 1;
+  private fps = 60;
   private fpsInterval = 1;
   private now = 0;
   private last = 0;
@@ -78,7 +78,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.last = this.now - (this.elapsed % this.fpsInterval);
 
       this.frameCount++;
-      console.log(this.frameCount);
+      // console.log(this.frameCount);
 
       if (this.menu) {
         this.menu.update();
