@@ -16,17 +16,23 @@ export class MouseInputStrategy extends InputStrategy {
 
     // protected override
 
-    private updateMouseDown(event: MouseEvent): void {
+    
+
+    private updatePosition(event: MouseEvent): void {
         const position: Point = RadialMenuHelper.getScreenPosition(event.clientX, event.clientY);
         this.downPos.x = position.x;
         this.downPos.y = position.y;
-    
+
         // also set current position here because don´t want to wait for the move event
         this.currPosition.x = position.x;
         this.currPosition.y = position.y;
+    }
 
+    private updateMouseDown(event: MouseEvent): void {
+        this.updatePosition(event);
+        this.tryMenuTarget(event);
         // console.log('new down pos: ' + this.downPos);
-    
+
         this.currentState = InputState.DOWN;
 
     }
@@ -39,7 +45,6 @@ export class MouseInputStrategy extends InputStrategy {
         }
 
         this.container.addEventListener('mousedown', (event: MouseEvent) => {
-            // console.log(event);
             this.updateMouseDown(event);
         });
 

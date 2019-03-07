@@ -19,8 +19,8 @@
     </div>
 
     <div class="menu-buttons">
-        <button (mousedown)="showYesNoMenu()">2 Options Menu</button>
-        <button (mousedown)="showRandomMenu()">Random Menu</button>
+        <button id="show-yes-no-menu" (mousedown)="showYesNoMenu()">2 Options Menu</button>
+        <button id="show-random-menu" (mousedown)="showRandomMenu()">Random Menu</button>
     </div>
 
     <div class="minimap">
@@ -30,7 +30,7 @@
     </div>
 
     <div class="radial-menu">
-        <hr/>
+        <!-- (targetIds)="targetIds" -->
         <app-radial-menu
             (selectedTargetIndex)="targetIndexUpdate($event)"
         ></app-radial-menu>

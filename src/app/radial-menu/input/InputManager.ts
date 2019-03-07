@@ -20,6 +20,14 @@ export class InputManager {
         this.init();
     }
 
+    public registerTargets(targetIds: Array<string>): void {
+        if (targetIds) {
+            this.inputStrategies.forEach(strategy => {
+                strategy.registerTargets(targetIds);
+            });
+        }
+    }
+
     public update(deltaTime: number = -1): void {
         // update all active input strategies
         // console.log('update all active input strategies');

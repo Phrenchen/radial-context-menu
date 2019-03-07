@@ -19,11 +19,18 @@ import { InputState } from './input/model/InputState';
 })
 export class RadialMenuComponent implements OnInit, AfterViewInit {
 
+
+  // @Input() targetIds: Array<string>;
   @Input() origin: Point;
+  
   @Output() selectedTargetIndex: EventEmitter<number> = new EventEmitter();
+  @Output() selectedTarget: EventEmitter<HTMLElement> = new EventEmitter();
 
-  // public isPointerDown = false;
-
+  public get targetIds(): Array<string> {
+    console.log('get target ids');
+    return ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
+  }
+  
   public get isPointerDown(): boolean {
     return this.inputManager.isCurrentState(InputState.DOWN);
   }
@@ -56,7 +63,13 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   ngOnInit() { }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {
+    // register targets with inputmanager
+    if (this.targetIds) {
+      this.inputManager.registerTargets(this.targetIds);
+    }
+
+  }
   // LIFE CYCLE END
 
   // MENU CREATORS

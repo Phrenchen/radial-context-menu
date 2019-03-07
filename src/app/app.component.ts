@@ -10,11 +10,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   @ViewChild(RadialMenuComponent) menu;
 
-
   public title = 'radial-menu';
 
   public targetIndex = -1;
-
+  
   /**
    * - animation frame handling
    * - FPS
@@ -26,9 +25,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   private now = 0;
   private last = 0;
   private elapsed = 0;
-
+  
   private unselectedMenuHideDelayInFps = 3;   // 3 at 1 fps => 3 seconds
+  
+  // TODO: pass to menu
+  // public targetIds: Array<string> = ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
 
+  public get targetIds(): Array<string> {
+    console.log('get target ids');
+    return ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
+  }
 
   //  -----
 
