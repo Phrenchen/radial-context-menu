@@ -1,5 +1,6 @@
 import { Point } from '../../model/Point';
 import { InputState } from '../model/InputState';
+import { MenuItemDirective } from 'src/app/directives/menu-item.directive';
 
 export class InputStrategy {
 
@@ -12,7 +13,7 @@ export class InputStrategy {
     protected downPos: Point = new Point();
     protected upPos: Point = new Point();
 
-    protected targetIds: Array<string> = new Array<string>();
+    protected menuItems: Array<MenuItemDirective> = new Array<MenuItemDirective>();
 
 
     constructor(containerId: string) {
@@ -21,13 +22,16 @@ export class InputStrategy {
     }
 
     /**
+     * TODO: use angular directives
      * @param targetId used as document.querySelector(targetId);
      */
-    public registerTargets(targetIds: Array<string>): void {
-        if (targetIds) {
-            targetIds.forEach(id => {
-                if (this.targetIds.indexOf(id) === -1) {
-                    this.targetIds.push(id);
+    public registerTargets(menuItems: Array<MenuItemDirective>): void {
+        if (menuItems) {
+            menuItems.forEach(menuItem => {
+                if (this.menuItems.indexOf(menuItem) === -1) {
+                    this.menuItems.push(menuItem);
+                    // console.log('added menu item adding up to: ' + this.menuItems.length + ' items.');
+                    // console.log(this.menuItems);
                 }
             });
         }
@@ -68,24 +72,49 @@ export class InputStrategy {
     }
 
     protected tryMenuTarget(event: MouseEvent): void {
-        const target: HTMLElement = event.target as HTMLElement;
+        let target: HTMLElement = event.target as HTMLElement;
 
         if (!target) {
             return;
         }
-        const selectedTargetId = target.id;
+
+        let selectedTarget;
+
+        while (target) {
+            selectedTarget = this.menuItems.find(element => {
+                return element.id === target.id;
+            });
+
+            if (selectedTarget) {
+                if (target.id === selectedTarget.id) {
+                    // console.log('found parent element by id: ' + target.id);
+                    break;
+                } else {
+                    target = target.parentElement;
+                }
+            }
+            target = target.parentElement;
+        }
+
+        if (selectedTarget) {
+            console.log('selected target: ' + selectedTarget.id);
+            console.log(selectedTarget);
+            // console.log(target);
+
+            // selectedTarget
+
+            target.style.color = 'red';
+            target.style.border = '1px dotted black';
+
+        }
+
         // find registered target and dispatch event with target.id
 
         // console.log(selectedTargetId);
-        // console.log(this.targetIds);
+        // console.log(this.menuItems);
 
-        const targetId = this.targetIds.find(element => {
-            return element === selectedTargetId;
-        });
 
-        if (targetId) {
-            console.log(targetId);
-        }
+
     }
 
 

@@ -6,6 +6,7 @@ import { RadialMenuComponent } from './radial-menu/radial-menu.component';
 import { ClickOutsideDetectorDirective } from './directives/click-detector.directive';
 import { MouseMoverDirective } from './directives/mouse-mover.directive';
 import { MenuMinimapComponent } from './menu-minimap/menu-minimap.component';
+import { MenuItemDirective } from './directives/menu-item.directive';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { MenuMinimapComponent } from './menu-minimap/menu-minimap.component';
     RadialMenuComponent,
     ClickOutsideDetectorDirective,
     MouseMoverDirective,
-    MenuMinimapComponent
+    MenuMinimapComponent,
+    MenuItemDirective,
   ],
   imports: [
     BrowserModule

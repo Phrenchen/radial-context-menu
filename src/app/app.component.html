@@ -1,5 +1,6 @@
-<div class="content-wrapper" id="content-wrapper">  <!-- id used by input strategy to find input-enabled container -->
-    <h1 class="title">Radial Context Menu</h1>
+<div class="content-wrapper" id="content-wrapper">
+    <!-- id used by input strategy to find input-enabled container -->
+    <h1 class="title" appMenuItem id="title">Radial Context Menu</h1>
     <div class="description">
         <ul>
             <li>
@@ -19,21 +20,21 @@
     </div>
 
     <div class="menu-buttons">
-        <button id="show-yes-no-menu" (mousedown)="showYesNoMenu()">2 Options Menu</button>
-        <button id="show-random-menu" (mousedown)="showRandomMenu()">Random Menu</button>
+        <button id="show-yes-no-menu" appMenuItem
+            (mousedown)="showYesNoMenu()">
+            YES / NO
+        </button>
+        <button id="show-random-menu" appMenuItem
+            (mousedown)="showRandomMenu()">Random Menu</button>
     </div>
 
-    <div class="minimap">
-        <app-menu-minimap
-        [selectedTargetIndex]="targetIndex"
-        ></app-menu-minimap>
+    <div class="minimap" id="minimap" appMenuItem>
+        <app-menu-minimap [selectedTargetIndex]="targetIndex"></app-menu-minimap>
     </div>
 
-    <div class="radial-menu">
+    <div id="menu" class="radial-menu">
         <!-- (targetIds)="targetIds" -->
-        <app-radial-menu
-            (selectedTargetIndex)="targetIndexUpdate($event)"
-        ></app-radial-menu>
+        <app-radial-menu (selectedTargetIndex)="targetIndexUpdate($event)"></app-radial-menu>
     </div>
 
     <!-- <p style="padding: 10px; user-select: none;">

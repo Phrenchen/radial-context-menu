@@ -3,6 +3,7 @@ import { Point } from './model/Point';
 import { RadialMenuHelper } from './RadialMenuHelper';
 import { InputManager } from './input/InputManager';
 import { InputState } from './input/model/InputState';
+import { MenuItemDirective } from '../directives/menu-item.directive';
 
 
 /**
@@ -20,17 +21,20 @@ import { InputState } from './input/model/InputState';
 export class RadialMenuComponent implements OnInit, AfterViewInit {
 
 
-  // @Input() targetIds: Array<string>;
+  // @Input() targetIds: Array<MenuItemDirective>;
   @Input() origin: Point;
-  
+
   @Output() selectedTargetIndex: EventEmitter<number> = new EventEmitter();
   @Output() selectedTarget: EventEmitter<HTMLElement> = new EventEmitter();
 
-  public get targetIds(): Array<string> {
-    console.log('get target ids');
-    return ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
-  }
-  
+  // public get targetIds(): Array<MenuItemDirective> {
+  //   console.log('get target ids');
+  //   return ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
+  // }
+
+
+  public targetIds: Array<MenuItemDirective>;
+
   public get isPointerDown(): boolean {
     return this.inputManager.isCurrentState(InputState.DOWN);
   }
@@ -54,7 +58,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private mouseDownMarkerColor = this.unselectedColor;
   private activeCircleBackgroundColor = 'darkred';
 
-  private inputManager: InputManager = new InputManager('content-wrapper');
+  public inputManager: InputManager = new InputManager('content-wrapper');
 
   // LIFE CYCLE
   constructor() {

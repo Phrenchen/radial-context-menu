@@ -2,6 +2,7 @@ import { InputStrategy } from './strategies/InputStrategy';
 import { MouseInputStrategy } from './strategies/MouseInputStrategy';
 import { InputState } from './model/InputState';
 import { Point } from '../model/Point';
+import { MenuItemDirective } from 'src/app/directives/menu-item.directive';
 
 /**
  * Registers User Input
@@ -15,12 +16,13 @@ export class InputManager {
     private inputStrategies: InputStrategy[] = [];
 
 
+
     constructor(containerId: string) {
         this.containerId = containerId;
         this.init();
     }
 
-    public registerTargets(targetIds: Array<string>): void {
+    public registerTargets(targetIds: Array<MenuItemDirective>): void {
         if (targetIds) {
             this.inputStrategies.forEach(strategy => {
                 strategy.registerTargets(targetIds);

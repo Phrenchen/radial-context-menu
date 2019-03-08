@@ -1,5 +1,9 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, ViewChildren } from '@angular/core';
 import { RadialMenuComponent } from './radial-menu/radial-menu.component';
+import { MenuItem } from './radial-menu/model/MenuItem';
+import { MenuItemDirective } from './directives/menu-item.directive';
+import { MenuService } from './radial-menu/services/menu.service';
+import { MixcloudService } from './services/mixcloud.service';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +12,13 @@ import { RadialMenuComponent } from './radial-menu/radial-menu.component';
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(RadialMenuComponent) menu;
+  @ViewChild(RadialMenuComponent) menu: RadialMenuComponent;
+  @ViewChildren(MenuItemDirective) menuItems: Array<MenuItemDirective>;
 
   public title = 'radial-menu';
 
   public targetIndex = -1;
-  
+
   /**
    * - animation frame handling
    * - FPS
@@ -25,29 +30,80 @@ export class AppComponent implements OnInit, AfterViewInit {
   private now = 0;
   private last = 0;
   private elapsed = 0;
-  
-  private unselectedMenuHideDelayInFps = 3;   // 3 at 1 fps => 3 seconds
-  
-  // TODO: pass to menu
-  // public targetIds: Array<string> = ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
 
-  public get targetIds(): Array<string> {
-    console.log('get target ids');
-    return ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
-  }
+  private unselectedMenuHideDelayInFps = 3;   // 3 at 1 fps => 3 seconds
 
   //  -----
 
   // LIFE CYCLE
-  constructor() { }
+  constructor(private menuService: MenuService,
+    private mixcloudService: MixcloudService) { }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
+    // feed InputManager
+    console.log('feed InputManager');
+
+    this.getCloudcasts();
+
+    // console.log(this.menuItems);
+
+    this.menuItems.forEach(item => {
+      this.menuService.enhanceItem(item);
+    });
+
+    // TODO: feed to service and register the response (-> decorated menuItems with VO payload)
+
+    this.menu.inputManager.registerTargets(this.menuItems);
+
     this.startAnimationFrames();
   }
   // LIFE CYCLE END
+
+  /**
+   * // ------ MIXCLOUD -------- 
+   * 
+     * triggers MixcloudService to HTTP-GET cloudcasts via Mixcloud API
+     * @private
+     * @method async getCloudcasts
+     */
+  private async getCloudcasts() {
+    // if (this.cloudCastBlob) {
+    // return;
+    // }
+
+    const limit = 0;  // 0 : get all
+    const cloudCastBlob = await this.mixcloudService.getCloudcasts(limit);
+    console.log(cloudCastBlob);
+
+    try {
+      // this.cloudCastBlob = cloudCastBlob;
+
+      // add ID of specific cast. default is random (-1)
+      // this.widgetSource = this.getWidgetSource(this.cloudCastBlob, -1);
+
+
+      // console.log('initial widget source: ' + this.widgetSource);
+
+      // TODO: preselect to initially show the overlay! disable!
+      // this.selectedCast = this.cloudCastBlob.data[0];
+
+      // TODO: while has nextBlob for more than 200 cloudcasts
+      // const nextBlobUrl = this.cloudCastBlob.paging['next'];
+      // if (nextBlobUrl) {
+      //   const nextBlob = await this.mixcloudService.getNextCloudcastBatch(nextBlobUrl);
+      //   this.cloudCastBlob.data = this.cloudCastBlob.data.concat(nextBlob.data);
+      // }
+
+      // console.log('cloudCastBlob: ' + cloudCastBlob.name);
+    } catch (e) {
+      console.log('failed assigning response to news array');
+    }
+  }
+
+  // ------ MIXCLOUD -------- end
 
   /**
    * - animation frame handling
@@ -93,6 +149,29 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
   }
+
+
+  public getMenuItem(itemId: string): MenuItem {
+    const menuItem: MenuItem = new MenuItem();
+
+    switch (itemId) {
+      case 'show-yes-no-menu':
+        menuItem.title = 'Yes or No';
+        menuItem.description = 'basic choice';
+        break;
+    }
+
+    return menuItem;
+  }
+
+
+  // TODO: pass to menu
+  // public targetIds: Array<string> = ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
+  public get targetIds(): Array<string> {
+    console.log('get target ids');
+    return ['show-yes-no-menu', 'show-random-menu', '', '', '',];
+  }
+
 
 
   public targetIndexUpdate(targetIndex: number): void {
