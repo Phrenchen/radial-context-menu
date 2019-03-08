@@ -7,14 +7,18 @@
     "description"
     "menu-buttons"
     "minimap"
-    /* "radial-menu" */
+    "mixcloud"
     ;
     
-    height: 100vh;
     justify-items: center;
-    align-items: start;
+    align-items: center;
+    grid-gap: 10px;
+
+    height: 100vh;
     
     background-color: rgba(36, 202, 105, 0);
+
+    user-select: none;
     
 }
 
@@ -24,10 +28,10 @@
         grid-template-rows: repeat(3, min-content) 1fr;
         grid-template-areas: 
             "title title title title title"
-            "description description description description description "
-            "minimap menu-buttons menu-buttons menu-buttons ."
+            "description description description minimap minimap"
+            ". menu-buttons menu-buttons menu-buttons ."
+            ". mixcloud mixcloud mixcloud ."
             ;
-            /* "radial-menu radial-menu radial-menu radial-menu radial-menu " */
     }
 }
 
@@ -39,6 +43,7 @@
 
 .description {
     grid-area: description;
+    justify-self: start;
 }
 
 .menu-buttons {
@@ -49,6 +54,10 @@
     grid-area: minimap;
 }
 
-.radial-menu {
-    /* grid-area: radial-menu; */
+.mixcloud {
+    grid-area: mixcloud;
+    border: 3px solid red;
+
+    justify-self: stretch;
+    align-self: stretch;
 }

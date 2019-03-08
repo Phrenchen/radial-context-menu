@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public title = 'radial-menu';
 
   public targetIndex = -1;
-
+  public cloudcasts: Array<MenuItem> = new Array<MenuItem>();
   /**
    * - animation frame handling
    * - FPS
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   // LIFE CYCLE
   constructor(private menuService: MenuService,
-    private mixcloudService: MixcloudService) { }
+              private mixcloudService: MixcloudService) { }
 
   ngOnInit(): void {
   }
@@ -62,23 +62,28 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
   // LIFE CYCLE END
 
+
   /**
-   * // ------ MIXCLOUD -------- 
-   * 
-     * triggers MixcloudService to HTTP-GET cloudcasts via Mixcloud API
-     * @private
-     * @method async getCloudcasts
-     */
+   * ------ MIXCLOUD --------
+    * triggers MixcloudService to HTTP-GET cloudcasts via Mixcloud API
+    * @private
+    * @method async getCloudcasts
+    */
   private async getCloudcasts() {
     // if (this.cloudCastBlob) {
     // return;
     // }
 
-    const limit = 0;  // 0 : get all
-    const cloudCastBlob = await this.mixcloudService.getCloudcasts(limit);
-    console.log(cloudCastBlob);
+    const limit = 10;  // 0 : get all
+    const cloudcastBlob = await this.mixcloudService.getCloudcasts(limit);
+    console.log(cloudcastBlob);
+
 
     try {
+
+      this.cloudcasts = this.mixcloudService.parseCloudcast(cloudcastBlob);
+
+
       // this.cloudCastBlob = cloudCastBlob;
 
       // add ID of specific cast. default is random (-1)

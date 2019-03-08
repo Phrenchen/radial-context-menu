@@ -7,6 +7,7 @@ import { ClickOutsideDetectorDirective } from './directives/click-detector.direc
 import { MouseMoverDirective } from './directives/mouse-mover.directive';
 import { MenuMinimapComponent } from './menu-minimap/menu-minimap.component';
 import { MenuItemDirective } from './directives/menu-item.directive';
+import { MixcloudComponent } from './mixcloud/mixcloud.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { MenuItemDirective } from './directives/menu-item.directive';
     MouseMoverDirective,
     MenuMinimapComponent,
     MenuItemDirective,
+    MixcloudComponent,
   ],
   imports: [
     BrowserModule

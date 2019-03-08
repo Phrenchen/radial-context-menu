@@ -1,5 +1,6 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import Axios, { AxiosResponse } from 'axios';
+import { MenuItem } from '../radial-menu/model/MenuItem';
 
 /**
  * Mixcloud connector / service
@@ -77,6 +78,21 @@ export class MixcloudService {
       });
   }
 
+  public parseCloudcast(cloudcastBlob): Array<MenuItem> {
+    const casts: Array<MenuItem> = new Array<MenuItem>();
+    let menuItem: MenuItem;
+
+    (cloudcastBlob.data).forEach( cloudcast => {
+      menuItem = new MenuItem();
+      menuItem.data = cloudcast;
+      casts.push(menuItem);
+    });
+
+    return casts;
+  }
+
+
+  // PRIVATE
   private convertToBlob(mixcloudResponse) {
     console.log(mixcloudResponse);
     const items: Array<any> = mixcloudResponse.data;

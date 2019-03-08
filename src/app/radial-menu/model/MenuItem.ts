@@ -7,6 +7,7 @@ export class MenuItem {
     public height = 1;
     public width = 1;
 
+    public data: any;
 
     constructor() {
 

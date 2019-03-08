@@ -32,6 +32,12 @@
         <app-menu-minimap [selectedTargetIndex]="targetIndex"></app-menu-minimap>
     </div>
 
+    <div class="mixcloud">
+        <app-mixcloud
+            [cloudcasts]="cloudcasts"
+        ></app-mixcloud>
+    </div>
+
     <div id="menu" class="radial-menu">
         <!-- (targetIds)="targetIds" -->
         <app-radial-menu (selectedTargetIndex)="targetIndexUpdate($event)"></app-radial-menu>
