@@ -2,12 +2,13 @@ import { InputStrategy } from './InputStrategy';
 import { InputState } from '../model/InputState';
 import { Point } from '../../model/Point';
 import { RadialMenuHelper } from '../../RadialMenuHelper';
+import { MenuService } from '../../services/menu.service';
 
 export class MouseInputStrategy extends InputStrategy {
 
 
-    constructor(containerId: string) {
-        super(containerId);
+    constructor(containerId: string, menuService: MenuService) {
+        super(containerId, menuService);
     }
 
     public toString(): string {
@@ -16,7 +17,7 @@ export class MouseInputStrategy extends InputStrategy {
 
     // protected override
 
-    
+
 
     private updatePosition(event: MouseEvent): void {
         const position: Point = RadialMenuHelper.getScreenPosition(event.clientX, event.clientY);
@@ -31,7 +32,6 @@ export class MouseInputStrategy extends InputStrategy {
     private updateMouseDown(event: MouseEvent): void {
         this.updatePosition(event);
         this.tryMenuTarget(event);
-        // console.log('new down pos: ' + this.downPos);
 
         this.currentState = InputState.DOWN;
 
@@ -49,8 +49,6 @@ export class MouseInputStrategy extends InputStrategy {
         });
 
         this.container.addEventListener('mouseup', (event: MouseEvent) => {
-            // console.log(event);
-
             const position: Point = RadialMenuHelper.getScreenPosition(event.clientX, event.clientY);
             this.upPos.x = position.x;
             this.upPos.y = position.y;
@@ -58,7 +56,6 @@ export class MouseInputStrategy extends InputStrategy {
         });
 
         this.container.addEventListener('mousemove', (event: MouseEvent) => {
-            // console.log(event);
             if (this.state === InputState.DOWN) {
                 const position: Point = RadialMenuHelper.getScreenPosition(event.clientX, event.clientY);
                 this.currPosition.x = position.x;

@@ -1,6 +1,8 @@
 <h3>Mixcloud</h3>
 <div class="cloudcast-grid" id="cloudcast-grid" appMenuItem>
-  <div *ngFor="let item of cloudcasts">
+  <div *ngFor="let item of cloudcasts" 
+    id="{{item.id}}"
+    class="cloudcast">
     <h6>{{item.title}}</h6>
     <p>{{item.description}}</p>
   </div>

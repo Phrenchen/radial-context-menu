@@ -22,7 +22,6 @@ export class MixcloudService {
 
   /**
    * returns url for Mixcloud API
-   * @private
    * @method getEndPointBase
    * @param {string} user
    * @param {string} requestName
@@ -84,6 +83,7 @@ export class MixcloudService {
 
     (cloudcastBlob.data).forEach( cloudcast => {
       menuItem = new MenuItem();
+      menuItem.id = cloudcast.slug;         // define id used for retrieving menu item by clicked HTMLElement. key in menuItem-map
       menuItem.data = cloudcast;
       casts.push(menuItem);
     });
@@ -94,7 +94,6 @@ export class MixcloudService {
 
   // PRIVATE
   private convertToBlob(mixcloudResponse) {
-    console.log(mixcloudResponse);
     const items: Array<any> = mixcloudResponse.data;
 
     items.map(item => {

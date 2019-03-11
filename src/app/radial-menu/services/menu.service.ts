@@ -43,15 +43,10 @@ export class MenuService {
   /**
    * adds VO to the directive
    */
-  public enhanceItem(item: MenuItemDirective): void {
-    // console.log('enhance item');
-    // console.log(item);
-    // console.log();
-    // console.log(this.menuItems);
+  public enhanceItem(item: MenuItemDirective): MenuItem {
     let menuItem: MenuItem;
 
     this.menuItems.forEach(candidate => {
-      // console.log(candidate);
       if (candidate.id === item.id) {
         menuItem = candidate;
         return;
@@ -59,10 +54,25 @@ export class MenuService {
     });
 
     if (menuItem) {
-      console.log(menuItem);
-      item.payload = menuItem;
+      // console.log(menuItem);
+      menuItem.id = item.id;
     } else {
       // console.log('no data for item: ' + item.id);
     }
+
+    return menuItem;
+  }
+
+  public addItem(item: MenuItem): void {
+    if (item && item.id) {
+      this.menuItems.set(item.id, item);
+    } else {
+      console.log('failed to add new item');
+      console.log(item);
+    }
+  }
+
+  public getMenuItemById(id: string): MenuItem {
+    return this.menuItems.get(id);
   }
 }

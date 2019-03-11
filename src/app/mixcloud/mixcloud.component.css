@@ -6,6 +6,10 @@
     text-align: center;
 }
 
+.cloudcast {
+    border: 1px dotted black;
+}
+
 h3 {
     text-align: center;
 }

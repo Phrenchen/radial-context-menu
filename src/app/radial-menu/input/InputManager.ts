@@ -2,7 +2,7 @@ import { InputStrategy } from './strategies/InputStrategy';
 import { MouseInputStrategy } from './strategies/MouseInputStrategy';
 import { InputState } from './model/InputState';
 import { Point } from '../model/Point';
-import { MenuItemDirective } from 'src/app/directives/menu-item.directive';
+import { MenuService } from '../services/menu.service';
 
 /**
  * Registers User Input
@@ -17,22 +17,13 @@ export class InputManager {
 
 
 
-    constructor(containerId: string) {
+    constructor(containerId: string, menuService: MenuService) {
         this.containerId = containerId;
-        this.init();
-    }
-
-    public registerTargets(targetIds: Array<MenuItemDirective>): void {
-        if (targetIds) {
-            this.inputStrategies.forEach(strategy => {
-                strategy.registerTargets(targetIds);
-            });
-        }
+        this.init(menuService);
     }
 
     public update(deltaTime: number = -1): void {
         // update all active input strategies
-        // console.log('update all active input strategies');
         this.inputStrategies.forEach(strategy => {
             strategy.update();
         });
@@ -66,7 +57,7 @@ export class InputManager {
 
 
     // private
-    private init(): void {
-        this.inputStrategies.push(new MouseInputStrategy(this.containerId));
+    private init(menuService: MenuService): void {
+        this.inputStrategies.push(new MouseInputStrategy(this.containerId, menuService));
     }
 }

@@ -13,7 +13,7 @@ import { MixcloudService } from './services/mixcloud.service';
 export class AppComponent implements OnInit, AfterViewInit {
 
   @ViewChild(RadialMenuComponent) menu: RadialMenuComponent;
-  @ViewChildren(MenuItemDirective) menuItems: Array<MenuItemDirective>;
+  @ViewChildren(MenuItemDirective) menuItemDirectives: Array<MenuItemDirective>;
 
   public title = 'radial-menu';
 
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   // LIFE CYCLE
   constructor(private menuService: MenuService,
-              private mixcloudService: MixcloudService) { }
+    private mixcloudService: MixcloudService) { }
 
   ngOnInit(): void {
   }
@@ -49,14 +49,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.getCloudcasts();
 
     // console.log(this.menuItems);
+    // const staticMenuItems: Array<MenuItem> = new Array<MenuItem>();
 
-    this.menuItems.forEach(item => {
-      this.menuService.enhanceItem(item);
+    this.menuItemDirectives.forEach(item => {
+      const menuItem: MenuItem = this.menuService.enhanceItem(item);
+      this.menuService.addItem(menuItem);
     });
-
-    // TODO: feed to service and register the response (-> decorated menuItems with VO payload)
-
-    this.menu.inputManager.registerTargets(this.menuItems);
 
     this.startAnimationFrames();
   }
@@ -65,10 +63,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   /**
    * ------ MIXCLOUD --------
-    * triggers MixcloudService to HTTP-GET cloudcasts via Mixcloud API
-    * @private
-    * @method async getCloudcasts
-    */
+   * triggers MixcloudService to HTTP-GET cloudcasts via Mixcloud API
+   * @method async getCloudcasts
+   */
   private async getCloudcasts() {
     // if (this.cloudCastBlob) {
     // return;
@@ -76,33 +73,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     const limit = 10;  // 0 : get all
     const cloudcastBlob = await this.mixcloudService.getCloudcasts(limit);
-    console.log(cloudcastBlob);
 
 
     try {
-
       this.cloudcasts = this.mixcloudService.parseCloudcast(cloudcastBlob);
 
+      this.cloudcasts.forEach(cloudcast => {
+        this.menuService.addItem(cloudcast);
+      });
 
-      // this.cloudCastBlob = cloudCastBlob;
-
-      // add ID of specific cast. default is random (-1)
-      // this.widgetSource = this.getWidgetSource(this.cloudCastBlob, -1);
-
-
-      // console.log('initial widget source: ' + this.widgetSource);
-
-      // TODO: preselect to initially show the overlay! disable!
-      // this.selectedCast = this.cloudCastBlob.data[0];
-
-      // TODO: while has nextBlob for more than 200 cloudcasts
-      // const nextBlobUrl = this.cloudCastBlob.paging['next'];
-      // if (nextBlobUrl) {
-      //   const nextBlob = await this.mixcloudService.getNextCloudcastBatch(nextBlobUrl);
-      //   this.cloudCastBlob.data = this.cloudCastBlob.data.concat(nextBlob.data);
-      // }
-
-      // console.log('cloudCastBlob: ' + cloudCastBlob.name);
     } catch (e) {
       console.log('failed assigning response to news array');
     }
@@ -168,16 +147,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     return menuItem;
   }
-
-
-  // TODO: pass to menu
-  // public targetIds: Array<string> = ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
-  public get targetIds(): Array<string> {
-    console.log('get target ids');
-    return ['show-yes-no-menu', 'show-random-menu', '', '', '',];
-  }
-
-
 
   public targetIndexUpdate(targetIndex: number): void {
     this.targetIndex = targetIndex;

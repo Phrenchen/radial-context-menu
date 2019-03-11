@@ -56,7 +56,6 @@
 
 .mixcloud {
     grid-area: mixcloud;
-    border: 3px solid red;
 
     justify-self: stretch;
     align-self: stretch;

@@ -4,6 +4,7 @@ import { RadialMenuHelper } from './RadialMenuHelper';
 import { InputManager } from './input/InputManager';
 import { InputState } from './input/model/InputState';
 import { MenuItemDirective } from '../directives/menu-item.directive';
+import { MenuService } from './services/menu.service';
 
 
 /**
@@ -21,19 +22,11 @@ import { MenuItemDirective } from '../directives/menu-item.directive';
 export class RadialMenuComponent implements OnInit, AfterViewInit {
 
 
-  // @Input() targetIds: Array<MenuItemDirective>;
   @Input() origin: Point;
 
   @Output() selectedTargetIndex: EventEmitter<number> = new EventEmitter();
   @Output() selectedTarget: EventEmitter<HTMLElement> = new EventEmitter();
 
-  // public get targetIds(): Array<MenuItemDirective> {
-  //   console.log('get target ids');
-  //   return ['show-yes-no-menu', 'show-random-menu', '', '', '', ];
-  // }
-
-
-  public targetIds: Array<MenuItemDirective>;
 
   public get isPointerDown(): boolean {
     return this.inputManager.isCurrentState(InputState.DOWN);
@@ -49,30 +42,25 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private offsetAngle = 0;
   private cancelDistanceToOriginDistance = 50;           // Pixel
 
-  // private pointerDownPosition: Point = new Point();
-  // private pointerUpPosition: Point = new Point();
-  // private currentPointerPosition: Point = new Point();
 
   private selectedItemColor = 'blue';
   private unselectedColor = 'black';
   private mouseDownMarkerColor = this.unselectedColor;
   private activeCircleBackgroundColor = 'darkred';
 
-  public inputManager: InputManager = new InputManager('content-wrapper');
+  public inputManager: InputManager;
 
   // LIFE CYCLE
-  constructor() {
-    this.showRandomMenu();
+  constructor(private menuService: MenuService) {
+
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.inputManager = new InputManager('content-wrapper', this.menuService);
+  }
 
   ngAfterViewInit(): void {
-    // register targets with inputmanager
-    if (this.targetIds) {
-      this.inputManager.registerTargets(this.targetIds);
-    }
-
+    
   }
   // LIFE CYCLE END
 
@@ -101,9 +89,6 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     // let random: number;
     let label: string;
     for (let i = 0; i < itemCount; i++) {
-      // random = Math.random() * 1000;
-      // random = i;
-      // label = random.toString().substr(0, 2);
       label = i.toString();
       this.menuItemLabels.push(label);
     }
@@ -116,15 +101,10 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
     }
     this.menuItemCount = this.menuItemLabels.length;
     this.offsetAngle = 360 / this.menuItemCount;
-    // this.menuRadiusPx = ;
 
     this.targetIndex = -1;
-    // this.isPointerDown = false;
     this.inputManager.state = InputState.UP;
     this.inputManager.downPosition.reset();
-    // this.pointerDownPosition.reset();
-
-    // this.updateItemSelection();
   }
   // MENU CREATORS END
 
