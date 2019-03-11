@@ -4,8 +4,6 @@ import { MenuItem } from '../radial-menu/model/MenuItem';
 
 /**
  * Mixcloud connector / service
- * @module Mixcloud
- * @class MixcloudService
  */
 @Injectable({
   providedIn: 'root'
@@ -15,16 +13,12 @@ export class MixcloudService {
   private static USER_THESNOOZE = 'thesnooze';
 
   private static CLOUD_CASTS = 'cloudcasts';
-  private static META_DATA = '?metadata=1';
 
 
   constructor() { }
 
   /**
    * returns url for Mixcloud API
-   * @method getEndPointBase
-   * @param {string} user
-   * @param {string} requestName
    */
   private static getEndPointBase(user: string, requestName: string): string {
     return 'https://api.mixcloud.com/' + user + '/' + requestName + '/';
@@ -34,9 +28,6 @@ export class MixcloudService {
 
   /**
    * gets consecutive bacth of CloudCasts
-   * @method async getNextCloudcastBatch
-   * @param {string} batchUrl
-   * @return {Promise<any>}
    */
   public async getNextCloudcastBatch(batchUrl: string): Promise<any> {
     return Axios.get(batchUrl)
@@ -51,9 +42,6 @@ export class MixcloudService {
 
   /**
    * via HTTP GET
-   * @method async getCloudcasts
-   * @param {number} limit - max amount of items collected. default is 100 (soft-limit)
-   * @return {Promise<any>}
    */
   public async getCloudcasts(limit: number = 0): Promise<any> {
     let endpoint = MixcloudService.getEndPointBase(MixcloudService.USER_THESNOOZE, MixcloudService.CLOUD_CASTS);
@@ -101,24 +89,5 @@ export class MixcloudService {
     });
 
     return mixcloudResponse;
-  }
-
-  /**
-   * helper method to retrieve metaData.
-   * @method getMetaData
-   * @deprecated
-   */
-  private getMetaData(): Promise<any> {
-    const endpoint = MixcloudService.getEndPointBase(MixcloudService.USER_THESNOOZE, MixcloudService.META_DATA);
-
-    return Axios.get(endpoint)
-      .then((response: AxiosResponse<any>) => {
-        return response.data;
-
-      })
-      .catch(error => {
-        console.log('error: ' + error);
-        return null;
-      });
   }
 }
