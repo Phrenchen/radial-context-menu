@@ -3,7 +3,6 @@ import { Point } from './model/Point';
 import { RadialMenuHelper } from './RadialMenuHelper';
 import { InputManager } from './input/InputManager';
 import { InputState } from './input/model/InputState';
-import { MenuItemDirective } from '../directives/menu-item.directive';
 import { MenuService } from './services/menu.service';
 
 
