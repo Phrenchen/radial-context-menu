@@ -1,6 +1,9 @@
 import { Directive, Input, OnInit, ElementRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { MenuItem } from '../radial-menu/model/MenuItem';
 
+/**
+ * - used to collect statically used HTMLElements for the menu. 
+ * - MenuService must have data for them or they will be ignored
+ */
 @Directive({
   selector: '[appMenuItem]'
 })
@@ -8,9 +11,8 @@ export class MenuItemDirective implements OnInit, AfterViewInit {
 
   @Input() id: string;
 
-
   constructor(el: ElementRef) {
-    console.log(el);
+    // console.log(el);
   }
 
 

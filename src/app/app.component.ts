@@ -47,9 +47,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.menuItemDirectives.forEach(item => {
       const menuItem: MenuItem = this.menuService.enhanceItem(item);
-      console.log('enhanced item: ');
-      console.log(menuItem);
-      this.menuService.addItem(menuItem);
+
+      if (menuItem) {
+        // console.log('enhanced item: ');
+        // console.log(menuItem);
+        this.menuService.addItem(menuItem);
+      }
     });
 
     this.startAnimationFrames();
