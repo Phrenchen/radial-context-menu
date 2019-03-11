@@ -37,22 +37,18 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   // LIFE CYCLE
   constructor(private menuService: MenuService,
-    private mixcloudService: MixcloudService) { }
+              private mixcloudService: MixcloudService) { }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
-    // feed InputManager
-    console.log('feed InputManager');
-
     this.getCloudcasts();
-
-    // console.log(this.menuItems);
-    // const staticMenuItems: Array<MenuItem> = new Array<MenuItem>();
 
     this.menuItemDirectives.forEach(item => {
       const menuItem: MenuItem = this.menuService.enhanceItem(item);
+      console.log('enhanced item: ');
+      console.log(menuItem);
       this.menuService.addItem(menuItem);
     });
 
@@ -67,10 +63,6 @@ export class AppComponent implements OnInit, AfterViewInit {
    * @method async getCloudcasts
    */
   private async getCloudcasts() {
-    // if (this.cloudCastBlob) {
-    // return;
-    // }
-
     const limit = 10;  // 0 : get all
     const cloudcastBlob = await this.mixcloudService.getCloudcasts(limit);
 
