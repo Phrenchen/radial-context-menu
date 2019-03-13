@@ -12,7 +12,9 @@ export class InputStrategy {
     protected currPosition: Point = new Point();
     protected downPos: Point = new Point();
     protected upPos: Point = new Point();
-
+    
+    public selectedMenuItem: MenuItem = null;
+    public selectedTarget: HTMLElement = null;
 
 
     constructor(private containerId: string, protected menuService: MenuService) {
@@ -53,38 +55,35 @@ export class InputStrategy {
 
     protected tryMenuTarget(event: MouseEvent): void {
 
-        let selectedMenuItem: MenuItem;
-        let selectedTarget: HTMLElement;
+        let menuItemCandidate: MenuItem;
+        let targetCandidate: HTMLElement;
 
         const path: EventTarget[] = event.composedPath();
 
-        // find item with specific class. "cloudcast-item"
-
-
         // for each path element
-        // path.forEach(pathElement => {
         for (let i = 0; i < path.length; i++) {
             const pathElement = path[i];
             const candidate: HTMLElement = pathElement as HTMLElement;
-            
+
             if (candidate.id && candidate.id !== '') {
-                selectedMenuItem = this.menuService.getMenuItemById(candidate.id);
-                selectedTarget = candidate;
+                menuItemCandidate = this.menuService.getMenuItemById(candidate.id);
+                targetCandidate = candidate;
             }
 
-            if (selectedMenuItem) {
+            if (menuItemCandidate) {
                 break;
             }
         }
 
-        if (selectedMenuItem) {
-            console.log('selected target: ' + selectedMenuItem.id);
-            console.log(selectedMenuItem);
-            console.log(selectedTarget);
+        if (menuItemCandidate) {
+            // console.log('selected target: ' + menuItemCandidate.id);
+            console.log(menuItemCandidate);
+            // console.log(targetCandidate);
+            this.selectedMenuItem = menuItemCandidate;
+            this.selectedTarget = targetCandidate;
 
-
-            selectedTarget.style.color = 'red';
-            selectedTarget.style.border = '1px dotted black';
+            targetCandidate.style.color = 'red';
+            targetCandidate.style.border = '1px dotted black';
 
         }
     }

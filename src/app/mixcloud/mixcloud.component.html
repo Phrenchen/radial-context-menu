@@ -3,7 +3,7 @@
   <div *ngFor="let item of cloudcasts" 
     id="{{item.id}}"
     class="cloudcast">
-    <h6>{{item.title}}</h6>
-    <p>{{item.description}}</p>
+    <h6>{{item.data.name}}</h6>
+    <img src="{{item.data.thumbnailUrl}}" alt="thumb nail">
   </div>
 </div>

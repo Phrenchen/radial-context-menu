@@ -1,3 +1,5 @@
+import { MenuAction } from './MenuAction';
+
 export class MenuItem {
     public id: string = null;
     public title = 'menu item';
@@ -7,7 +9,9 @@ export class MenuItem {
     public height = 1;
     public width = 1;
 
-    public data: any;
+    public data: any = {};
+
+    public actions: Array<MenuAction> = new Array<MenuAction>();
 
     constructor() {
 

@@ -3,6 +3,7 @@ import { MouseInputStrategy } from './strategies/MouseInputStrategy';
 import { InputState } from './model/InputState';
 import { Point } from '../model/Point';
 import { MenuService } from '../services/menu.service';
+import { MenuItem } from '../model/MenuItem';
 
 /**
  * Registers User Input
@@ -20,6 +21,14 @@ export class InputManager {
     constructor(containerId: string, menuService: MenuService) {
         this.containerId = containerId;
         this.init(menuService);
+    }
+
+    public get currentMenuItem(): MenuItem {
+        const successfulStrategy = this.inputStrategies.find(strategy => {
+            return strategy.selectedMenuItem !== null;
+        });
+
+        return successfulStrategy ? successfulStrategy.selectedMenuItem : null;
     }
 
     public update(deltaTime: number = -1): void {

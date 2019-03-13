@@ -66,7 +66,7 @@ export class AppComponent implements OnInit, AfterViewInit {
    * @method async getCloudcasts
    */
   private async getCloudcasts() {
-    const limit = 10;  // 0 : get all
+    const limit = 9;  // 0 : get all
     const cloudcastBlob = await this.mixcloudService.getCloudcasts(limit);
 
 

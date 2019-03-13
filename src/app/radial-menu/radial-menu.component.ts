@@ -4,6 +4,7 @@ import { RadialMenuHelper } from './RadialMenuHelper';
 import { InputManager } from './input/InputManager';
 import { InputState } from './input/model/InputState';
 import { MenuService } from './services/menu.service';
+import { MenuItem } from './model/MenuItem';
 
 
 /**
@@ -26,6 +27,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   @Output() selectedTargetIndex: EventEmitter<number> = new EventEmitter();
   @Output() selectedTarget: EventEmitter<HTMLElement> = new EventEmitter();
 
+  private activeMenuItem: MenuItem;
 
   public get isPointerDown(): boolean {
     return this.inputManager.isCurrentState(InputState.DOWN);
@@ -37,7 +39,7 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   private menuItemCount = 0;
 
   private radiusUnit = 'px';
-  private menuRadiusPx = 150;                             // unit depentds on radiusUnit value: 'px', 'vmin', ...
+  private menuRadiusPx = 100;         // unit depentds on radiusUnit value: 'px', 'vmin', ...
   private offsetAngle = 0;
   private cancelDistanceToOriginDistance = 50;           // Pixel
 
@@ -59,9 +61,16 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    
+    // console.log(this.menuService.menuItems);
   }
   // LIFE CYCLE END
+
+  /**
+   * button callback on mouse up
+   */
+  public onMouseItemUp(event: MouseEvent): void {
+    console.log(event);
+  }
 
   // MENU CREATORS
   public showYesNoMenu(): void {
@@ -178,6 +187,22 @@ export class RadialMenuComponent implements OnInit, AfterViewInit {
 
   public update(): void {
     this.inputManager.update();
+
+    const currentMenuItem = this.inputManager.currentMenuItem;
+
+    if (currentMenuItem && currentMenuItem !== this.activeMenuItem) {
+      this.activeMenuItem = currentMenuItem;
+
+      this.menuItemLabels = [];
+
+      this.inputManager.currentMenuItem.actions.forEach(action => {
+        this.menuItemLabels.push(action.value.label);
+      });
+
+      console.log('menu item labels: ' + this.menuItemLabels);
+      this.initMenuConfiguration();
+    }
+
     this.updateMenu();
   }
 

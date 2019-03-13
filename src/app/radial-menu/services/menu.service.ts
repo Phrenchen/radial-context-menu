@@ -1,13 +1,14 @@
 import { Injectable, OnInit } from '@angular/core';
 import { MenuItemDirective } from 'src/app/directives/menu-item.directive';
 import { MenuItem } from '../model/MenuItem';
+import { MenuAction } from '../model/MenuAction';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuService {
 
-  private menuItems: Map<string, MenuItem> = new Map<string, MenuItem>();
+  public menuItems: Map<string, MenuItem> = new Map<string, MenuItem>();
 
   constructor() {
     this.init();
@@ -28,6 +29,10 @@ export class MenuService {
     btnYesNoMenu.label = 'yes_no_label';
     btnYesNoMenu.height = 100;
     btnYesNoMenu.width = 100;
+
+    btnYesNoMenu.actions.push(MenuAction.SHOW_DETAILS);      // TODO: add method to safe-add actions
+    btnYesNoMenu.actions.push(MenuAction.CANCEL_ACTION);     // TODO: add method to safe-add actions
+
     this.menuItems.set(btnYesNoMenu.id, btnYesNoMenu);
 
     const btnRandomMenu = new MenuItem();
@@ -37,6 +42,10 @@ export class MenuService {
     btnRandomMenu.label = 'random_label';
     btnRandomMenu.height = 100;
     btnRandomMenu.width = 100;
+
+    btnRandomMenu.actions.push(MenuAction.SHOW_DETAILS);     // TODO: add method to safe-add actions
+    btnRandomMenu.actions.push(MenuAction.CANCEL_ACTION);    // TODO: add method to safe-add actions
+
     this.menuItems.set(btnRandomMenu.id, btnRandomMenu);
   }
 

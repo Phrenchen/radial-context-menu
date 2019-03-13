@@ -7,25 +7,28 @@
   appClickOutsideDetector (clickElsewhere)="mouseUpOutside($event)"> -->
 
 <div appMouseMover>
-<div class="dropdown-menu" >
-  <!-- track mouse movement only while the mouse is pressed -->
-<!-- </div> -->
+  <div class="dropdown-menu">
+    <!-- track mouse movement only while the mouse is pressed -->
+    <!-- </div> -->
 
-<!-- 
+    <!-- 
   positions items on circle
   
   TODO: find menu-items as children of container: multiple item selections can be used!
   important: filter children by class 'menu-item'. the container may also contain non-item children!
 -->
 
-  <div class="mouse-down-marker">
-  </div>
-
-  <div class="item-container">
-    <div class="menu-item" *ngFor="let itemLabel of menuItemLabels; let i=index"
-      [ngStyle]="{'transform': getMenuItemStyle(i) }">
-      {{itemLabel}}
+    <div class="mouse-down-marker">
     </div>
-  </div>
 
-</div>
+    <div class="item-container">
+      <button *ngFor="let itemLabel of menuItemLabels; let i=index"
+        class="menu-item"
+        id="{{'btn_' + i}}"
+        (mouseup)="onMouseItemUp($event)"
+        [ngStyle]="{'transform': getMenuItemStyle(i) }">
+          {{itemLabel}}
+      </button>
+    </div>
+
+  </div>

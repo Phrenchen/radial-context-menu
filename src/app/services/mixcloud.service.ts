@@ -1,6 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import Axios, { AxiosResponse } from 'axios';
 import { MenuItem } from '../radial-menu/model/MenuItem';
+import { MenuAction } from '../radial-menu/model/MenuAction';
 
 /**
  * Mixcloud connector / service
@@ -73,6 +74,9 @@ export class MixcloudService {
       menuItem = new MenuItem();
       menuItem.id = cloudcast.slug;         // define id used for retrieving menu item by clicked HTMLElement. key in menuItem-map
       menuItem.data = cloudcast;
+      menuItem.actions.push(MenuAction.SHOW_TITLE);
+      menuItem.actions.push(MenuAction.SHOW_DESCRIPTION);
+      menuItem.actions.push(MenuAction.SHOW_THUMBNAIL);
       casts.push(menuItem);
     });
 

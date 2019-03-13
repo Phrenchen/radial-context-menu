@@ -1,9 +1,19 @@
 .cloudcast-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     grid-gap: 5px;
+    
+    justify-items: center;
+    align-items: end;
 
     text-align: center;
+    
+}
+
+@media only screen and (min-width: 740px) {
+    .cloudcast-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .cloudcast {
