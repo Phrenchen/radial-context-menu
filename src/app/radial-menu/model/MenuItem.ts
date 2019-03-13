@@ -1,5 +1,10 @@
 import { MenuAction } from './MenuAction';
 
+/**
+ * represents the payload of an 'enhanced' item which
+ * - offers actions selectable via menu
+ * - carries data object
+ */
 export class MenuItem {
     public id: string = null;
     public title = 'menu item';
