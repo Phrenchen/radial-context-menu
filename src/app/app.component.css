@@ -7,7 +7,7 @@
     "description"
     "menu-buttons"
     "minimap"
-    "mixcloud"
+    "main-content"
     ;
     
     justify-items: center;
@@ -25,12 +25,11 @@
 @media only screen and (min-width: 740px) {
     .content-wrapper {
         grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: repeat(3, min-content) 1fr;
+        grid-template-rows: repeat(2, min-content) 1fr;
         grid-template-areas: 
             "title title title title title"
-            "description description description minimap minimap"
-            ". menu-buttons menu-buttons menu-buttons ."
-            "mixcloud mixcloud mixcloud mixcloud mixcloud"
+            ". description description description ."
+            "main-content main-content main-content main-content main-content"
             ;
     }
 }
@@ -48,14 +47,15 @@
 
 .menu-buttons {
     grid-area: menu-buttons;
+    justify-self: center;
 }
 
 .minimap {
     grid-area: minimap;
 }
 
-.mixcloud {
-    grid-area: mixcloud;
+.main-content {
+    grid-area: main-content;
 
     justify-self: stretch;
     align-self: stretch;

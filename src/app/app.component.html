@@ -2,24 +2,16 @@
     <!-- id used by input strategy to find input-enabled container -->
     <h1 class="title" appMenuItem id="title">Evo Memo</h1>
     <div class="description">
-        <ul>
-            <li>
-                Click mouse to activate the menu
-            </li>
-            <li>
-                Rotate mouse around the clicked point to select an item on the menu
-            </li>
-            <li>
-                Release mouse do trigger selected item
-            </li>
-            <li>
-                Move mouse close to the center and release to abort. this also hides the menu
-            </li>
-
-        </ul>
+            <ul>
+                <li>Create Threads about topics that interest you.</li>
+                <li>Add items you find on the web and create your own, personal.</li>
+                <li>Over time you will see how f.e. news stories develop.</li>
+            </ul>
     </div>
 
-    <div class="menu-buttons">
+    <app-memoevo class="main-content"></app-memoevo>
+
+    <!-- <div class="menu-buttons">
         <button id="show-yes-no-menu" appMenuItem
             (mousedown)="showYesNoMenu()">
             YES / NO
@@ -32,7 +24,7 @@
         <app-menu-minimap [selectedTargetIndex]="targetIndex"></app-menu-minimap>
     </div>
 
-    <div class="mixcloud">
+    <div class="main-content">
         <app-mixcloud
             [cloudcasts]="cloudcasts"
         ></app-mixcloud>
@@ -40,5 +32,5 @@
 
     <div id="menu" class="radial-menu">
         <app-radial-menu (selectedTargetIndex)="targetIndexUpdate($event)"></app-radial-menu>
-    </div>
+    </div> -->
 </div>

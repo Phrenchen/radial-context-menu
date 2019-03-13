@@ -1,4 +1,8 @@
-import { Directive, Input, OnInit, ElementRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Directive,
+  Input,
+  OnInit,
+  ElementRef,
+  AfterViewInit } from '@angular/core';
 
 /**
  * - used to collect statically used HTMLElements for the menu. 

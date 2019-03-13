@@ -8,6 +8,7 @@ import { MouseMoverDirective } from './directives/mouse-mover.directive';
 import { MenuMinimapComponent } from './menu-minimap/menu-minimap.component';
 import { MenuItemDirective } from './directives/menu-item.directive';
 import { MixcloudComponent } from './mixcloud/mixcloud.component';
+import { MemoevoComponent } from './memoevo/memoevo.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { MixcloudComponent } from './mixcloud/mixcloud.component';
     MenuMinimapComponent,
     MenuItemDirective,
     MixcloudComponent,
+    MemoevoComponent,
   ],
   imports: [
     BrowserModule
