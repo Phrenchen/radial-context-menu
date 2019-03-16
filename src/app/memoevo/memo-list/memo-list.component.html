@@ -1,5 +1,10 @@
 <div class="memo-grid">
-  <app-memo-item *ngFor="let memo of memos; let i= index" class="memo-item"
+
+  <div *ngIf="!memos || memos.length === 0; else memolist">
+    <h3>0 memos. feel free and add the first one!</h3>
+  </div>
+
+  <app-memo-item #memolist *ngFor="let memo of memos; let i= index" class="memo-item"
     [memo]="memo"
     (deleteMemo)="deleteItem($event)">
   </app-memo-item>
