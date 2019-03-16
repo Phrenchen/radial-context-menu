@@ -1,31 +1,44 @@
 .memoevo-grid {
     display: grid;
     grid-template-columns: 1fr;
-
-    height: 100%;
+    grid-template-areas: 
+        "memo-form"
+        "memo-list"
+    ;
 
     margin: 2vh 2vw;
 
     grid-gap: 20px 5px;
 
-    /* border: 1px dotted red; */
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
-.main-item {
-    border: 1px solid black;
+@media only screen and (min-width: 740px) {
+    .memoevo-grid {
+        /* display: grid; */
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+            "memo-list memo-form"
+            "memo-list memo-form"
+    };
+
 }
 
 .memo-list {
-
+    grid-area: memo-list;
 }
 
 .memo-form {
-    display: grid;
+    grid-area: memo-form;
+    align-self: start;
+    justify-self: start;
 
+    display: grid;
     grid-gap: 10px;
 }
 
-fieldset, .input-part {
+fieldset {
     display: grid;
     grid-template-columns: 1fr 1fr;
 

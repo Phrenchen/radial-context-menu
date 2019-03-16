@@ -1,0 +1,10 @@
+.memo-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    grid-gap: 15px;
+}
+
+.memo-item {
+    border: 1px solid black;
+}

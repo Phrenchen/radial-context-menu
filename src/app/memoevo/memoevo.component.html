@@ -7,15 +7,10 @@
 
   <!-- <div class="word-cloud main-item">word cloud</div> -->
 
-  <app-memo-list class="memo-list"
-    [memos]="memos"
-    (deleteMemo)="deleteMemo($event)"
-  ></app-memo-list>
-    
-    <!-- new memo form -->
-    <form [formGroup]="newMemoForm"
-    (ngSubmit)="addNewMemo()"
-    class="memo-form" novalidate>
+  <app-memo-list class="memo-list" [memos]="memos" (deleteMemo)="deleteMemo($event)"></app-memo-list>
+
+  <!-- new memo form -->
+  <form class="memo-form" [formGroup]="newMemoForm" (ngSubmit)="addNewMemo()" novalidate>
 
     <fieldset id="form-new-memo" formGroupName="author">
       <label for="author-name">Author name</label>
@@ -30,13 +25,13 @@
 
     <fieldset>
       <!-- <div> -->
-        <label for="memo-title">Title</label>
-        <input formControlName="title" id="memo-title" type="text" placeholder="enter title" autofocus>
+      <label for="memo-title">Title</label>
+      <input formControlName="title" id="memo-title" type="text" placeholder="enter title" autofocus>
       <!-- </div> -->
 
       <!-- <div> -->
-        <label for="memo-description">Description</label>
-        <input formControlName="description" id="memo-description" type="text" placeholder="enter description">
+      <label for="memo-description">Description</label>
+      <input formControlName="description" id="memo-description" type="text" placeholder="enter description">
       <!-- </div> -->
     </fieldset>
 
@@ -45,8 +40,7 @@
       <input formControlName="memohashtags" id="memo-hashtags" placeholder="select or add hashtags">
     </div>
 
-    <button type="submit"
-      [disabled]="newMemoForm.invalid">Add Memo</button>
+    <button type="submit" [disabled]="newMemoForm.invalid">Add Memo</button>
   </form>
 
 
