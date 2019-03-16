@@ -1,3 +1,50 @@
-<p>
-  memoevo works!
-</p>
+<div class="memoevo-grid">
+  <!-- word cloud (toggle between topics and hashtags ) -->
+  <!-- input field for new topic -->
+  <!-- hashtag selection -->
+  <!-- description text -->
+  <!-- button save -->
+
+  <div class="word-cloud main-item">word cloud</div>
+
+  <!-- new memo form -->
+
+  <form [formGroup]="newMemoForm" (ngSubmit)="addNewMemo()" class="memo-form">
+
+    <fieldset id="form-new-memo" formGroupName="author">
+      <label for="author-name">Author name</label>
+      <input formControlName="name" id="author-name" placeholder="enter your name">
+
+      <label for="author-nick">Author´s nickname</label>
+      <input formControlName="nick" id="author-nick" placeholder="nickname has preference over name">
+
+      <label for="author-email">Author´s email</label>
+      <input formControlName="email" id="author-email" placeholder="your email">
+    </fieldset>
+
+    <fieldset>
+      <!-- <div> -->
+        <label for="memo-title">Title</label>
+        <input formControlName="title" id="memo-title" type="text" placeholder="enter title" autofocus>
+      <!-- </div> -->
+
+      <!-- <div> -->
+        <label for="memo-description">Description</label>
+        <input formControlName="description" id="memo-description" type="text" placeholder="enter description">
+      <!-- </div> -->
+    </fieldset>
+
+    <div class="input-part">
+      <label for="memo-hashtags">Select some Hashtags</label>
+      <input formControlName="memohashtags" id="memo-hashtags" placeholder="select or add hashtags">
+    </div>
+
+
+    <button type="submit" [disabled]="newMemoForm.invalid">Add Memo</button>
+  </form>
+
+
+  <!-- <div class="input-new-title main-item">input new title</div>
+  <div class="input-new-description main-item">input new description</div>
+  <div class="btn-save main-item">button save</div> -->
+</div>

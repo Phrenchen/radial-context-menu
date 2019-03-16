@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RadialMenuComponent } from './radial-menu/radial-menu.component';
 import { ClickOutsideDetectorDirective } from './directives/click-detector.directive';
@@ -22,7 +23,8 @@ import { MemoevoComponent } from './memoevo/memoevo.component';
     MemoevoComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
