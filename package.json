@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "api": "nodemon ./api/server",
+    "db": "mongod --dbpath e:/_coding/data/mongodb --port 4199",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
