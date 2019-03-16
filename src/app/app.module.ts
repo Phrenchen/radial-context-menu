@@ -10,6 +10,9 @@ import { MenuMinimapComponent } from './menu-minimap/menu-minimap.component';
 import { MenuItemDirective } from './directives/menu-item.directive';
 import { MixcloudComponent } from './mixcloud/mixcloud.component';
 import { MemoevoComponent } from './memoevo/memoevo.component';
+import { MemoListComponent } from './memoevo/memo-list/memo-list.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MemoService } from './memoevo/memo.service';
 
 @NgModule({
   declarations: [
@@ -21,12 +24,14 @@ import { MemoevoComponent } from './memoevo/memoevo.component';
     MenuItemDirective,
     MixcloudComponent,
     MemoevoComponent,
+    MemoListComponent,
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [MemoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

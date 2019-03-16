@@ -1,17 +1,22 @@
 .memoevo-grid {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 1fr);
 
     height: 100%;
 
     margin: 2vh 2vw;
 
-    border: 1px dotted red;
+    grid-gap: 20px 5px;
+
+    /* border: 1px dotted red; */
 }
 
 .main-item {
     border: 1px solid black;
+}
+
+.memo-list {
+
 }
 
 .memo-form {

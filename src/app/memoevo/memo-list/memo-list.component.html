@@ -1,0 +1,5 @@
+<div *ngFor="let memo of memos; let i= index">
+  <h4>{{memo.title}}</h4>
+  <p>{{memo.description}}</p>
+  <button (click)="delete(i)">X</button>
+</div>

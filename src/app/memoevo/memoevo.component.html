@@ -5,11 +5,17 @@
   <!-- description text -->
   <!-- button save -->
 
-  <div class="word-cloud main-item">word cloud</div>
+  <!-- <div class="word-cloud main-item">word cloud</div> -->
 
-  <!-- new memo form -->
-
-  <form [formGroup]="newMemoForm" (ngSubmit)="addNewMemo()" class="memo-form">
+  <app-memo-list class="memo-list"
+    [memos]="memos"
+    (deleteMemo)="deleteMemo($event)"
+  ></app-memo-list>
+    
+    <!-- new memo form -->
+    <form [formGroup]="newMemoForm"
+    (ngSubmit)="addNewMemo()"
+    class="memo-form" novalidate>
 
     <fieldset id="form-new-memo" formGroupName="author">
       <label for="author-name">Author name</label>
@@ -39,8 +45,8 @@
       <input formControlName="memohashtags" id="memo-hashtags" placeholder="select or add hashtags">
     </div>
 
-
-    <button type="submit" [disabled]="newMemoForm.invalid">Add Memo</button>
+    <button type="submit"
+      [disabled]="newMemoForm.invalid">Add Memo</button>
   </form>
 
 

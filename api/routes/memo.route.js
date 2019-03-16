@@ -8,6 +8,7 @@ memoRoutes.route('/add').post(function(req, res) {
     let memo = new Memo(req.body);
     memo.save()
         .then(memo => {
+            // console.log('add memo success');
             res.status(200).json({'memo': 'memo in added successfully.'});
         })
         .catch(err => {
