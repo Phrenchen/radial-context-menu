@@ -13,8 +13,8 @@ export class MemoevoComponent implements OnInit {
   public memos: Array<Memo>;
 
   public newMemoForm = new FormGroup({
-    title: new FormControl('a title', [Validators.required, Validators.minLength(5)]),
-    description: new FormControl('a description', [Validators.required, Validators.minLength(10)]),
+    title: new FormControl('Cats!', [Validators.required, Validators.minLength(5)]),
+    description: new FormControl('How cats achieve world domination', [Validators.required, Validators.minLength(10)]),
     memohashtags: new FormControl('#cats'),
     author: new FormGroup({
       name: new FormControl('author name', [Validators.required]),
