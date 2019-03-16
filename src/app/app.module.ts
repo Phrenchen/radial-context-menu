@@ -13,6 +13,7 @@ import { MemoevoComponent } from './memoevo/memoevo.component';
 import { MemoListComponent } from './memoevo/memo-list/memo-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MemoService } from './memoevo/memo.service';
+import { MemoItemComponent } from './memoevo/memo-item/memo-item.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MemoService } from './memoevo/memo.service';
     MixcloudComponent,
     MemoevoComponent,
     MemoListComponent,
+    MemoItemComponent,
   ],
   imports: [
     BrowserModule,

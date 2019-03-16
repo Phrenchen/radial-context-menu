@@ -1,0 +1,7 @@
+<h4>{{memo.title}}</h4>
+<div *ngIf="showDetails">
+  <p>{{memo.description}}</p>
+  <p>{{memo.memoHashtags}}</p>
+</div>
+<button (click)="delete()">X</button>
+<button (click)="toggleDetails()">Details</button>

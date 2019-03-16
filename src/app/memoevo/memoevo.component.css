@@ -8,22 +8,12 @@
 
     margin: 2vh 2vw;
 
-    grid-gap: 20px 5px;
+    grid-gap: 20px 10px;
 
     border: 1px solid black;
-    border-radius: 10px;
 }
 
-@media only screen and (min-width: 740px) {
-    .memoevo-grid {
-        /* display: grid; */
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas: 
-            "memo-list memo-form"
-            "memo-list memo-form"
-    };
 
-}
 
 .memo-list {
     grid-area: memo-list;
@@ -31,8 +21,8 @@
 
 .memo-form {
     grid-area: memo-form;
+    justify-self: center;
     align-self: start;
-    justify-self: start;
 
     display: grid;
     grid-gap: 10px;
@@ -43,5 +33,21 @@ fieldset {
     grid-template-columns: 1fr 1fr;
 
     grid-gap: 10px 5px;
-    
+}
+
+textarea {
+    resize: vertical;
+}
+
+@media only screen and (min-width: 740px) {
+    .memoevo-grid {
+        /* display: grid; */
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+            "memo-list memo-form"
+    };
+
+    .memo-form {
+        justify-self: start;
+    }
 }

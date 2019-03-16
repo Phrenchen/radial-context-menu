@@ -1,7 +1,6 @@
 <div class="memo-grid">
-  <div *ngFor="let memo of memos; let i= index" class="memo-item">
-    <h4>{{memo.title}}</h4>
-    <p>{{memo.description}}</p>
-    <button (click)="delete(i)">X</button>
-  </div>
+  <app-memo-item *ngFor="let memo of memos; let i= index" class="memo-item"
+    [memo]="memo"
+    (deleteMemo)="deleteItem($event)">
+  </app-memo-item>
 </div>

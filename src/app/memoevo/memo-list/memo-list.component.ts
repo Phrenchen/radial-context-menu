@@ -14,12 +14,12 @@ export class MemoListComponent implements OnInit {
 
   // LIFE CYCLE
   constructor() { }
-  
+
   ngOnInit() {
   }
   // LIFE CYCLE END
 
-  public delete(memoIndex: number): void {
-    this.deleteMemo.emit(this.memos[memoIndex]._id);
+  public deleteItem(memoIndex: string): void {
+    this.deleteMemo.emit(memoIndex);
   }
 }
