@@ -7,11 +7,13 @@
 
   <!-- <div class="word-cloud main-item">word cloud</div> -->
 
-  <app-memo-list class="memo-list" [memos]="memos" (deleteMemo)="deleteMemo($event)"></app-memo-list>
+  <app-memo-list class="memo-list" 
+    [memos]="memos"
+    (deleteMemo)="deleteMemo($event)"
+    (addEvoToMemo)="addEvoToMemo($event)">
+  </app-memo-list>
 
-  <!-- new memo form -->
-  <form class="memo-form" [formGroup]="newMemoForm" (ngSubmit)="addNewMemo()" novalidate>
-
+  <!-- <form class="memo-form" [formGroup]="newMemoForm" (ngSubmit)="addNewMemo()" novalidate>
     <fieldset id="form-new-memo" formGroupName="author">
       <label for="author-name">Author name</label>
       <input formControlName="name" id="author-name" placeholder="enter your name">
@@ -22,15 +24,34 @@
       <label for="author-email">Author´s email</label>
       <input formControlName="email" id="author-email" placeholder="your email">
     </fieldset>
+  </form> -->
+
+  <form *ngIf="showEvoForm" class="evo-form" [formGroup]="newEvoForm" (ngSubmit)="addNewEvo()" novalidate>
+    <h3>New Evo</h3>
+    <fieldset>
+      <label for="evo-title">Evo Title</label>
+      <input formControlName="title" id="evo-title" type="text" placeholder="evo title">
+
+      <label for="evo-description">Evo Description</label>
+      <input formControlName="description" id="evo-description" type="text" placeholder="evo description">
+
+      <button type="submit" [disabled]="newMemoForm.invalid">Attach to Memo</button>
+    </fieldset>
+  </form>
+
+  <!-- new memo form -->
+  <form class="memo-form" [formGroup]="newMemoForm" (ngSubmit)="addNewMemo()" novalidate>
+    <h3>New Memo</h3>
+    
 
     <fieldset>
       <!-- <div> -->
-      <label for="memo-title">Title</label>
+      <label for="memo-title">Memo Title</label>
       <input formControlName="title" id="memo-title" type="text" placeholder="enter title" autofocus>
       <!-- </div> -->
 
       <!-- <div> -->
-      <label for="memo-description">Description</label>
+      <label for="memo-description">Memo Description</label>
       <textarea formControlName="description" id="memo-description" type="text" placeholder="enter description" cols="40" rows="5"></textarea>
       <!-- </div> -->
     </fieldset>

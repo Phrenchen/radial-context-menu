@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MemoService } from './memo.service';
 import { Memo } from './model/Memo';
+import { GenericMemo } from './model/GenericMemo';
 
 @Component({
   selector: 'app-memoevo',
@@ -10,7 +11,7 @@ import { Memo } from './model/Memo';
 })
 export class MemoevoComponent implements OnInit {
 
-  public memos: Array<Memo>;
+  public memos: Array<Memo<GenericMemo>>;
 
   public newMemoForm = new FormGroup({
     title: new FormControl('Cats!', [Validators.required, Validators.minLength(5)]),
@@ -21,8 +22,14 @@ export class MemoevoComponent implements OnInit {
       nick: new FormControl('', []),
       email: new FormControl('author@email.de', [Validators.email])
     })
-
   });
+
+  public newEvoForm = new FormGroup({
+    title: new FormControl('', []),
+    description: new FormControl('', [])
+  });
+
+  public showEvoForm = false;
 
   // LIFE CYCLE
   constructor(private formBuilder: FormBuilder, private memoService: MemoService) { }
@@ -67,5 +74,9 @@ export class MemoevoComponent implements OnInit {
 
         this.getMemos();
       });
+  }
+
+  public addEvoToMemo(memoId: string): void {
+    this.showEvoForm = true;
   }
 }

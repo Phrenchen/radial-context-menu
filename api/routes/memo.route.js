@@ -4,8 +4,12 @@ const memoRoutes = express.Router();
 
 let Memo = require('../models/Memo');
 
-memoRoutes.route('/add').post(function(req, res) {
+// MEMOS
+memoRoutes.route('/addMemo').post(function(req, res) {
     let memo = new Memo(req.body);
+    memo.createDate = new Date();
+    memo.relatedEvos = new Array();
+
     memo.save()
         .then(memo => {
             // console.log('add memo success');
@@ -55,7 +59,7 @@ memoRoutes.route('/update/:id').post(function(req, res) {
 
 });
 
-memoRoutes.route('/delete/:id').get(function(req, res) {
+memoRoutes.route('/deleteMemo/:id').get(function(req, res) {
     Memo.findByIdAndRemove({ _id: req.params.id}, function(err, memo) {
         if(err) {
             res.json(err);
@@ -65,5 +69,24 @@ memoRoutes.route('/delete/:id').get(function(req, res) {
         }
     })
 });
+
+
+// EVOS
+memoRoutes.route('/addEvo').post(function(req, res) {
+    let memo = new Evo(req.body);
+    memo.createDate = new Date();
+    
+
+    memo.save()
+        .then(memo => {
+            // console.log('add memo success');
+            res.status(200).json({'memo': 'memo in added successfully.'});
+        })
+        .catch(err => {
+            res.status(400).send('unable to save to database');
+        })
+});
+
+
 
 module.exports = memoRoutes;

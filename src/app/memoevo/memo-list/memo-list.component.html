@@ -4,8 +4,12 @@
     <h3>0 memos. feel free and add the first one!</h3>
   </div>
 
-  <app-memo-item #memolist *ngFor="let memo of memos; let i= index" class="memo-item"
-    [memo]="memo"
-    (deleteMemo)="deleteItem($event)">
-  </app-memo-item>
+  <ng-template #memolist>
+    <app-memo-item *ngFor="let memo of memos; let i= index" class="memo-item"
+      [memo]="memo"
+      (deleteMemo)="deleteItem($event)"
+      (addEvoToMemo)="addEvo($event)">
+    </app-memo-item>
+  </ng-template>
+  
 </div>

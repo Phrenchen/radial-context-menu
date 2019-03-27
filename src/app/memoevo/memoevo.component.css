@@ -3,6 +3,7 @@
     grid-template-columns: 1fr;
     grid-template-areas: 
         "memo-form"
+        "evo-form"
         "memo-list"
     ;
 
@@ -17,6 +18,10 @@
 
 .memo-list {
     grid-area: memo-list;
+}
+
+.evo-form {
+    grid-area: evo-form;
 }
 
 .memo-form {
@@ -45,6 +50,7 @@ textarea {
         grid-template-columns: 1fr 1fr;
         grid-template-areas: 
             "memo-list memo-form"
+            "memo-list evo-form"
     };
 
     .memo-form {

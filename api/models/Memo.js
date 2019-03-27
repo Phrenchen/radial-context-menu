@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 
 let Memo = new Schema({
+    createDate: {
+        type: Date
+    },
     title: {
         type: String
     },
@@ -11,6 +14,9 @@ let Memo = new Schema({
     },
     memoHashtags: {
         type: String
+    },
+    relatedEvos: {
+        type: Array
     }
     // TODO: author.name, author.nick, author.email <- nested Schema?
 }, {
