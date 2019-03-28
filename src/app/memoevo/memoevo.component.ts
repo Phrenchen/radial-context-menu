@@ -21,7 +21,8 @@ export class MemoevoComponent implements OnInit {
       name: new FormControl('author name', [Validators.required]),
       nick: new FormControl('', []),
       email: new FormControl('author@email.de', [Validators.email])
-    })
+    }),
+    thumbnail: new FormControl('assets/images/thumbnail-001.jpg')
   });
 
   public newEvoForm = new FormGroup({
@@ -50,6 +51,7 @@ export class MemoevoComponent implements OnInit {
       .subscribe(res => {
         // received memos
         this.memos = res;
+        console.log(this.memos);
       });
   }
 
@@ -57,8 +59,10 @@ export class MemoevoComponent implements OnInit {
     const title = this.newMemoForm.get('title').value;
     const description = this.newMemoForm.get('description').value;
     const memoHashTags = this.newMemoForm.get('memohashtags').value;
+    console.log(this.newMemoForm);
+    const thumbnail = this.newMemoForm.get('thumbnail').value;
 
-    this.memoService.addMemo(title, description, memoHashTags)
+    this.memoService.addMemo(title, description, memoHashTags, thumbnail)
       .subscribe(res => {
         // adding memo complete
         // console.log(res);

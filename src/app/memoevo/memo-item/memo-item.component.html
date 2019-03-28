@@ -1,8 +1,11 @@
-<h4>{{memo.title}}</h4>
-<div *ngIf="showDetails">
-  <p>{{memo.description}}</p>
-  <p>{{memo.memoHashtags}}</p>
+<div>
+  <img src="{{memo.thumbnail}}">
+  <h4>{{memo.title}}</h4>
+  <div *ngIf="showDetails">
+    <p>{{memo.description}}</p>
+    <p>{{memo.memoHashtags}}</p>
+  </div>
+  <button (click)="delete()">X</button>
+  <button (click)="toggleDetails()">Details</button>
+  <button (click)="addEvo()">Evolve Memo</button>
 </div>
-<button (click)="delete()">X</button>
-<button (click)="toggleDetails()">Details</button>
-<button (click)="addEvo()">Evolve Memo</button>

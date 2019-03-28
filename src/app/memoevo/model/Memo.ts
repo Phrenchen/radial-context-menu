@@ -17,7 +17,10 @@ export class Memo<GenericMemo> implements INode<GenericMemo> {
 
 
 
-    constructor(public title: string, public description: string, public memoHashtags: string) {
+    constructor(public title: string,
+                public description: string,
+                public memoHashtags: string,
+                public thumbnail: string) {
     }
 
     // tslint:disable-next-line:no-shadowed-variable
@@ -25,4 +28,4 @@ export class Memo<GenericMemo> implements INode<GenericMemo> {
         return arg;
     }
 
-} 
+}

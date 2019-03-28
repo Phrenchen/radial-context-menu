@@ -34,6 +34,9 @@
 
       <label for="evo-description">Evo Description</label>
       <input formControlName="description" id="evo-description" type="text" placeholder="evo description">
+      <button *ngFor="let thumbnail of thumbnails">
+        <img src="thumbnail">
+      </button>
 
       <button type="submit" [disabled]="newMemoForm.invalid">Attach to Memo</button>
     </fieldset>
@@ -42,8 +45,6 @@
   <!-- new memo form -->
   <form class="memo-form" [formGroup]="newMemoForm" (ngSubmit)="addNewMemo()" novalidate>
     <h3>New Memo</h3>
-    
-
     <fieldset>
       <!-- <div> -->
       <label for="memo-title">Memo Title</label>

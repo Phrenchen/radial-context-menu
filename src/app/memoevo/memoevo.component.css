@@ -2,9 +2,9 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas: 
+        "memo-list"
         "memo-form"
         "evo-form"
-        "memo-list"
     ;
 
     margin: 2vh 2vw;

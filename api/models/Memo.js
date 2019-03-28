@@ -17,6 +17,9 @@ let Memo = new Schema({
     },
     relatedEvos: {
         type: Array
+    },
+    thumbnail: {
+        type: String
     }
     // TODO: author.name, author.nick, author.email <- nested Schema?
 }, {

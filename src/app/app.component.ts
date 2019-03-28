@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit, ViewChildren } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, ViewChildren, OnChanges, SimpleChanges } from '@angular/core';
 import { RadialMenuComponent } from './radial-menu/radial-menu.component';
 import { MenuItem } from './radial-menu/model/MenuItem';
 import { MenuItemDirective } from './directives/menu-item.directive';
@@ -10,7 +10,8 @@ import { MixcloudService } from './services/mixcloud.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnChanges {
+  
 
   @ViewChild(RadialMenuComponent) menu: RadialMenuComponent;
   @ViewChildren(MenuItemDirective) menuItemDirectives: Array<MenuItemDirective>;
@@ -43,21 +44,32 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.getCloudcasts();
+    // this.getCloudcasts();
 
+    console.log(this.menuItemDirectives);
+
+    this.updateMenuItems();
+    
+    this.startAnimationFrames();
+  }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+  //   this.updateMenuItems();
+  //   // throw new Error('Method not implemented.');
+  }
+  // LIFE CYCLE END
+
+  private updateMenuItems(): void {
     this.menuItemDirectives.forEach(item => {
       const menuItem: MenuItem = this.menuService.enhanceItem(item);
 
       if (menuItem) {
-        // console.log('enhanced item: ');
-        // console.log(menuItem);
+        console.log('enhanced item: ');
+        console.log(menuItem);
         this.menuService.addItem(menuItem);
       }
     });
-
-    this.startAnimationFrames();
   }
-  // LIFE CYCLE END
 
 
   /**

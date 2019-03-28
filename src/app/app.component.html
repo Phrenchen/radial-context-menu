@@ -1,7 +1,7 @@
 <div class="content-wrapper" id="content-wrapper">
     <!-- id used by input strategy to find input-enabled container -->
-    <h1 class="title" appMenuItem id="title">Memoevo</h1>
-    <div class="description">
+    <h1 class="title" >Memoevo</h1>
+    <!-- <div class="description">
             <ul>
                 <li>Create Threads about topics that interest you.</li>
                 <li>Add items you find on the web and create your own, personal.</li>
@@ -9,7 +9,7 @@
                 <hr/>
                 <li>advice: use Firefox or Chrome :) </li>
             </ul>
-    </div>
+    </div> -->
 
     <app-memoevo class="main-content"></app-memoevo>
 
@@ -20,19 +20,19 @@
         </button>
         <button id="show-random-menu" appMenuItem
             (mousedown)="showRandomMenu()">Random Menu</button>
-    </div>
-
-    <div class="minimap" id="minimap" appMenuItem>
+    </div> -->
+    
+    <div class="minimap">
         <app-menu-minimap [selectedTargetIndex]="targetIndex"></app-menu-minimap>
     </div>
-
+<!--
     <div class="main-content">
         <app-mixcloud
             [cloudcasts]="cloudcasts"
         ></app-mixcloud>
     </div>
-
+ -->
     <div id="menu" class="radial-menu">
         <app-radial-menu (selectedTargetIndex)="targetIndexUpdate($event)"></app-radial-menu>
-    </div> -->
+    </div>
 </div>

@@ -15,11 +15,12 @@ export class MemoService {
 
 
   // MEMOS
-  public addMemo(title: string, description: string, memoHashtags: string): Observable<any> {
+  public addMemo(title: string, description: string, memoHashtags: string, thumbnail: string): Observable<any> {
     const memo = new Memo<GenericMemo>(
       title,
       description,
-      memoHashtags
+      memoHashtags,
+      thumbnail
     );
     // console.log(memo);
 
@@ -35,11 +36,12 @@ export class MemoService {
   }
 
   // EVOS
-  public addEvo(memoId: string, title: string, description: string, memoHashtags: string): Observable<any> {
+  public addEvo(memoId: string, title: string, description: string, memoHashtags: string, thumbnail: string): Observable<any> {
     const evo = new Memo (
       title,
       description,
-      memoHashtags
+      memoHashtags,
+      thumbnail
       );
     // console.log(memo);
 
