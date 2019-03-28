@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# asset-candidates
+/asset-candidates
+
 # compiled output
 /dist
 /tmp
