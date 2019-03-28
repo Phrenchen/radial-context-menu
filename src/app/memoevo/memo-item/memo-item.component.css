@@ -1,7 +1,7 @@
 img {
-    width: 10vmin;
-    height: 10vmin;
+    /* width: 10vmin;
+    height: 10vmin; */
 
-    min-width: 50px;
-    min-height: 50px;
+    max-width: 100px;
+    max-height: 100px;
 }

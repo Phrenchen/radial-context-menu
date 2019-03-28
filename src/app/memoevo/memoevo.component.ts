@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { MemoService } from './memo.service';
 import { Memo } from './model/Memo';
 import { GenericMemo } from './model/GenericMemo';
+import { MathHelper } from 'src/helper/MathHelper';
 
 @Component({
   selector: 'app-memoevo',
@@ -12,6 +13,8 @@ import { GenericMemo } from './model/GenericMemo';
 export class MemoevoComponent implements OnInit {
 
   public memos: Array<Memo<GenericMemo>>;
+
+  private thumbnailVarietyCount = 24;
 
   public newMemoForm = new FormGroup({
     title: new FormControl('Cats!', [Validators.required, Validators.minLength(5)]),
@@ -59,8 +62,17 @@ export class MemoevoComponent implements OnInit {
     const title = this.newMemoForm.get('title').value;
     const description = this.newMemoForm.get('description').value;
     const memoHashTags = this.newMemoForm.get('memohashtags').value;
-    console.log(this.newMemoForm);
-    const thumbnail = this.newMemoForm.get('thumbnail').value;
+    // console.log(this.newMemoForm);
+
+    // set thumbnail: select from fixed set of images
+    let thumbnail: string = this.newMemoForm.get('thumbnail').value;
+    // const thumbIndex = (this.memos.length % this.thumbnailVarietyCount) + 1;  // rotate through thumbnails
+    const thumbIndex = MathHelper.getRandomInt(0, this.thumbnailVarietyCount);
+    const prefix = '0';
+    const desiredLength = 3;
+    const suffix = '-' + this.fillWithLeadingPrefix(thumbIndex.toString(), prefix, desiredLength) + '.jpg';
+    thumbnail = thumbnail.split('-')[0] + suffix;
+
 
     this.memoService.addMemo(title, description, memoHashTags, thumbnail)
       .subscribe(res => {
@@ -68,6 +80,21 @@ export class MemoevoComponent implements OnInit {
         // console.log(res);
         this.getMemos();
       });
+  }
+
+  private fillWithLeadingPrefix(source: string, prefix: string, desiredLength: number): string {
+    if ( (!source || !prefix) || (source && source.length >= desiredLength) ) {
+      return source;
+    }
+
+    let result = source;
+    // source is too short.
+    // fill up with prefix until desiredLength is reached
+    while (result.length + prefix.length <= desiredLength) {
+      // result = result.concat(prefix);
+      result = prefix.concat(result);
+    }
+    return result;
   }
 
 
