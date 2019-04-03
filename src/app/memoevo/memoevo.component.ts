@@ -50,7 +50,7 @@ export class MemoevoComponent implements OnInit {
       .subscribe(res => {
         // received memos
         this.memos = res;
-        console.log(this.memos);
+        // console.log(this.memos);
       });
   }
 
@@ -103,7 +103,7 @@ export class MemoevoComponent implements OnInit {
   public deleteMemo(id: string): void {
     this.memoService.deleteMemo(id)
       .subscribe(res => {
-        console.log('deleting memo complete');
+        // console.log('deleting memo complete');
 
         this.getMemos();
       });

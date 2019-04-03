@@ -46,7 +46,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     // this.getCloudcasts();
 
-    console.log(this.menuItemDirectives);
+    // console.log(this.menuItemDirectives);
 
     this.updateMenuItems();
     

@@ -31,7 +31,6 @@ export class StringHelper {
             }
         });
 
-        console.log('stripped: ' + result);
         return result;
     }
 }

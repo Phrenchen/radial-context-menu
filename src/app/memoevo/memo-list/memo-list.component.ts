@@ -41,12 +41,9 @@ export class MemoListComponent implements OnInit, AfterContentInit, OnChanges {
 
   private updateMenuItems(): void {
     if (!this.menuItemDirectives) {
-      console.log('no menu items.');
+      // console.log('no menu items.');
       return;
     }
-
-    console.log(this.memos);
-    console.log('updating with ' + this.menuItemDirectives.length + ' menuItems.');
 
     this.menuItemDirectives.forEach(item => {
       const menuItem: MenuItem = this.menuService.enhanceItem(item);

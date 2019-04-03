@@ -25,7 +25,8 @@ export class MemoItemComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+    // console.log(changes);
+
     if (this.memo) {
       let url = this.memo.url;
       url = StringHelper.strip(url, ['https://']);
@@ -35,7 +36,7 @@ export class MemoItemComponent implements OnInit, OnChanges {
   }
 
   public delete(): void {
-    console.log(this.memo._id);
+    // console.log(this.memo._id);
     this.deleteMemo.emit(this.memo._id);
   }
 
