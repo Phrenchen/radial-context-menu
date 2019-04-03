@@ -70,9 +70,13 @@ export class MemoevoComponent implements OnInit {
     const suffix = '-' + this.fillWithLeadingPrefix(thumbIndex.toString(), prefix, desiredLength) + '.jpg';
     thumbnail = thumbnail.split('-')[0] + suffix;
 
+    // initialize with no neighbors.^
+    const neighbours: Array<string> = new Array<string>();
+    // TODO: add to parentMemo.addNeighbour(
 
- 
-    this.memoService.addMemo(title, description, memoHashTags, thumbnail, url)
+    const creatorId = '-1';
+
+    this.memoService.addMemo(title, description, memoHashTags, thumbnail, url, neighbours, creatorId)
       .subscribe(res => {
         // adding memo complete
         // console.log(res);
@@ -81,7 +85,7 @@ export class MemoevoComponent implements OnInit {
   }
 
   private fillWithLeadingPrefix(source: string, prefix: string, desiredLength: number): string {
-    if ( (!source || !prefix) || (source && source.length >= desiredLength) ) {
+    if ((!source || !prefix) || (source && source.length >= desiredLength)) {
       return source;
     }
 

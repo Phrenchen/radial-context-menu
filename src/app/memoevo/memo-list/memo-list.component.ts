@@ -20,7 +20,7 @@ export class MemoListComponent implements OnInit, AfterContentInit, OnChanges {
   @ViewChildren(MenuItemDirective) menuItemDirectives: Array<MenuItemDirective>;
 
   @Output() deleteMemo: EventEmitter<string> = new EventEmitter<string>();
-  @Output() addEvoToMemo: EventEmitter<string> = new EventEmitter<string>();
+  @Output() addToMemo: EventEmitter<string> = new EventEmitter<string>();
 
   // @ViewChild('memolist') memolist: TemplateRef;
 
@@ -63,7 +63,7 @@ export class MemoListComponent implements OnInit, AfterContentInit, OnChanges {
     this.deleteMemo.emit(memoIndex);
   }
 
-  public addEvo(memoId: string): void {
-    this.addEvoToMemo.emit(memoId);
+  public addMemo(memoId: string): void {
+    this.addToMemo.emit(memoId);
   }
 }

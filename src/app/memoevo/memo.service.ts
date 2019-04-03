@@ -15,13 +15,21 @@ export class MemoService {
 
 
   // MEMOS
-  public addMemo(title: string, description: string, memoHashtags: string, thumbnail: string, url: string): Observable<any> {
+  public addMemo(title: string,
+                 description: string,
+                 memoHashtags: string,
+                 thumbnail: string,
+                 url: string,
+                 neighbours: Array<string>,
+                 creatorId: string): Observable<any> {
     const memo = new Memo<GenericMemo>(
       title,
       description,
       memoHashtags,
       thumbnail,
-      url
+      url,
+      neighbours,
+      creatorId
     );
     // console.log(memo);
 
@@ -37,16 +45,16 @@ export class MemoService {
   }
 
   // EVOS
-  public addEvo(memoId: string, title: string, description: string, memoHashtags: string, thumbnail: string, url: string): Observable<any> {
-    const evo = new Memo (
-      title,
-      description,
-      memoHashtags,
-      thumbnail,
-      url
-      );
-    // console.log(memo);
+  // public addEvo(memoId: string, title: string, description: string, memoHashtags: string, thumbnail: string, url: string): Observable<any> {
+  //   const evo = new Memo (
+  //     title,
+  //     description,
+  //     memoHashtags,
+  //     thumbnail,
+  //     url
+  //     );
+  //   // console.log(memo);
 
-    return this.http.post(`${this.url}/addEvo`, evo);
-  }
+  //   return this.http.post(`${this.url}/addEvo`, evo);
+  // }
 }

@@ -13,7 +13,7 @@ export class MemoItemComponent implements OnInit, OnChanges {
 
   @Input() memo: Memo<GenericMemo>;
   @Output() deleteMemo: EventEmitter<string> = new EventEmitter<string>();
-  @Output() addEvoToMemo: EventEmitter<string> = new EventEmitter<string>();
+  @Output() addToMemo: EventEmitter<string> = new EventEmitter<string>();
 
   public showDetails = false;
 
@@ -39,9 +39,9 @@ export class MemoItemComponent implements OnInit, OnChanges {
     this.deleteMemo.emit(this.memo._id);
   }
 
-  public addEvo(event: MouseEvent): void {
+  public addMemo(event: MouseEvent): void {
     event.stopPropagation();
-    this.addEvoToMemo.emit(this.memo._id);
+    this.addToMemo.emit(this.memo._id);
   }
 
   public toggleDetails(): void {

@@ -8,7 +8,7 @@
     <app-memo-item appMenuItem id="memo-item-{{memo.title}}" *ngFor="let memo of memos; let i= index" class="memo-item"
       [memo]="memo"
       (deleteMemo)="deleteItem($event)"
-      (addEvoToMemo)="addEvo($event)">
+      (addToMemo)="addMemo($event)">
     </app-memo-item>
   </ng-template>
   

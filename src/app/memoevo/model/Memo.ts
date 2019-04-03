@@ -21,12 +21,21 @@ export class Memo<GenericMemo> implements INode<GenericMemo> {
                 public description: string,
                 public memoHashtags: string,
                 public thumbnail: string,
-                public url: string) {
+                public url: string,
+                public neighbours: Array<string> = new Array<string>(),
+                public creatorId: string
+                ) {
     }
 
     // tslint:disable-next-line:no-shadowed-variable
     public identity<T>(arg: T): T {
         return arg;
+    }
+
+    public toString(): string {
+        return 'memo: ' + this.title +
+               '. creator: ' + this.creatorId +
+               '. neighbour: ' + this.neighbours.length;
     }
 
 }

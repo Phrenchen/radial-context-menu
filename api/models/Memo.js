@@ -15,13 +15,16 @@ let Memo = new Schema({
     memoHashtags: {
         type: String
     },
-    relatedEvos: {
+    neighbours: {
         type: Array
     },
     thumbnail: {
         type: String
     },
     url: {
+        type: String
+    },
+    creatorId: {
         type: String
     }
     // TODO: author.name, author.nick, author.email <- nested Schema?
