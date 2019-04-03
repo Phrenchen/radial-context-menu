@@ -1,11 +1,14 @@
-<div class="memo-item-grid">
+<div class="memo-item-grid" (click)="toggleDetails()">
   <img class="thumbnail" src="{{memo.thumbnail}}">
-  <h4 class="title">{{memo.title}}</h4>
-  <div class="details" *ngIf="showDetails">
-    <p>{{memo.description}}</p>
-    <p>{{memo.memoHashtags}}</p>
-  </div>
-  <button class="btn-delete" (click)="delete()">X</button>
-  <button class="btn-details" (click)="toggleDetails()">Details</button>
-  <button class="btn-add-evo" (click)="addEvo()">Evolve Memo</button>
+
+  <ng-template [ngIf]="showDetails">
+    <h4 class="title">{{memo.title}}</h4>
+    <p class="description">{{memo.description}}</p>
+    <p class="memo-hashtags">{{memo.memoHashtags}}</p>
+    <!-- <a class="url" *ngIf="memo.url" href="{{memo.url}}" target="_blank">{{memo.url}}</a> -->
+    <a class="url" *ngIf="memo.url" href="{{memo.url}}" target="_blank">{{urlForDisplay}}</a>
+    <button class="btn-delete" (click)="delete()"><i class="far fa-trash-alt"></i></button>
+    <button class="btn-add-evo" (click)="addEvo($event)"><i class="fas fa-plus"></i></button>
+  </ng-template>
+
 </div>

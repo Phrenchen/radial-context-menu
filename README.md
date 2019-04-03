@@ -3,7 +3,7 @@
 - api: 4000
 - db: 4199
 
-// start work
+// start it up:
 npm start / ng serve
 npm run api
 npm run db

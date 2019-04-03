@@ -20,6 +20,9 @@ let Memo = new Schema({
     },
     thumbnail: {
         type: String
+    },
+    url: {
+        type: String
     }
     // TODO: author.name, author.nick, author.email <- nested Schema?
 }, {

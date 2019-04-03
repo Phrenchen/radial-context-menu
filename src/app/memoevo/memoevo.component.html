@@ -26,21 +26,6 @@
     </fieldset>
   </form> -->
 
-  <form *ngIf="showEvoForm" class="evo-form" [formGroup]="newEvoForm" (ngSubmit)="addNewEvo()" novalidate>
-    <h3>New Evo</h3>
-    <fieldset>
-      <label for="evo-title">Evo Title</label>
-      <input formControlName="title" id="evo-title" type="text" placeholder="evo title">
-
-      <label for="evo-description">Evo Description</label>
-      <input formControlName="description" id="evo-description" type="text" placeholder="evo description">
-      <button *ngFor="let thumbnail of thumbnails">
-        <img src="thumbnail">
-      </button>
-
-      <button type="submit" [disabled]="newMemoForm.invalid">Attach to Memo</button>
-    </fieldset>
-  </form>
 
   <!-- new memo form -->
   <form class="memo-form" [formGroup]="newMemoForm" (ngSubmit)="addNewMemo()" novalidate>
@@ -61,6 +46,9 @@
       <label for="memo-hashtags">Select some Hashtags</label>
       <input formControlName="memohashtags" id="memo-hashtags" placeholder="select or add hashtags">
     </div>
+
+    <label for="newMemoForm-url">URL</label>
+    <input formControlName="url" id="newMemoForm-url" type="text" placeholder="enter url">
 
     <button type="submit" [disabled]="newMemoForm.invalid">Add Memo</button>
   </form>

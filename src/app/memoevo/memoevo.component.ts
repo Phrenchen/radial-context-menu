@@ -25,15 +25,11 @@ export class MemoevoComponent implements OnInit {
       nick: new FormControl('', []),
       email: new FormControl('author@email.de', [Validators.email])
     }),
-    thumbnail: new FormControl('assets/images/thumbnail-001.jpg')
+    thumbnail: new FormControl('assets/images/thumbnail-001.jpg'),
+    url: new FormControl('')
   });
 
-  public newEvoForm = new FormGroup({
-    title: new FormControl('', []),
-    description: new FormControl('', [])
-  });
-
-  public showEvoForm = false;
+  public showAddToMemoForm = false;
 
   // LIFE CYCLE
   constructor(private formBuilder: FormBuilder, private memoService: MemoService) { }
@@ -62,19 +58,21 @@ export class MemoevoComponent implements OnInit {
     const title = this.newMemoForm.get('title').value;
     const description = this.newMemoForm.get('description').value;
     const memoHashTags = this.newMemoForm.get('memohashtags').value;
+    const url = this.newMemoForm.get('url').value;
     // console.log(this.newMemoForm);
 
     // set thumbnail: select from fixed set of images
     let thumbnail: string = this.newMemoForm.get('thumbnail').value;
     // const thumbIndex = (this.memos.length % this.thumbnailVarietyCount) + 1;  // rotate through thumbnails
-    const thumbIndex = MathHelper.getRandomInt(0, this.thumbnailVarietyCount);
+    const thumbIndex = MathHelper.getRandomInt(1, this.thumbnailVarietyCount);
     const prefix = '0';
     const desiredLength = 3;
     const suffix = '-' + this.fillWithLeadingPrefix(thumbIndex.toString(), prefix, desiredLength) + '.jpg';
     thumbnail = thumbnail.split('-')[0] + suffix;
 
 
-    this.memoService.addMemo(title, description, memoHashTags, thumbnail)
+ 
+    this.memoService.addMemo(title, description, memoHashTags, thumbnail, url)
       .subscribe(res => {
         // adding memo complete
         // console.log(res);
@@ -107,7 +105,9 @@ export class MemoevoComponent implements OnInit {
       });
   }
 
-  public addEvoToMemo(memoId: string): void {
-    this.showEvoForm = true;
+  public addToMemo(memoId: string): void {
+    this.showAddToMemoForm = true;
+
+    // TODO: attach new memo to existing memo.
   }
 }

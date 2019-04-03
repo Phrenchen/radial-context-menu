@@ -46,6 +46,7 @@ memoRoutes.route('/update/:id').post(function(req, res) {
             memo.title = req.body.title;
             memo.description = req.body.description;
             memo.memoHashtags = req.body.memoHashtags;
+            memo.url = req.body.url;
 
             memo.save()
                 .then(memo => {
@@ -86,7 +87,7 @@ memoRoutes.route('/addEvo').post(function(req, res) {
             res.status(400).send('unable to save to database');
         })
 });
-
+ 
 
 
 module.exports = memoRoutes;
